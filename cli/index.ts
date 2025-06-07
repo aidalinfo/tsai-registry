@@ -144,7 +144,7 @@ yargs(hideBin(process.argv))
           process.exit(1);
         }
         // Création du dossier cible
-        const targetDir = path.join(process.cwd(), localPath, entry.type + 's', name);
+        const targetDir = path.join(process.cwd(), localPath, entry.type, name);
         if (fs.existsSync(targetDir)) {
           const prompt = require('readline-sync');
           const overwrite = prompt.question(`Le dossier ${targetDir} existe déjà. Overwrite ? (y/N): `);
@@ -197,6 +197,28 @@ yargs(hideBin(process.argv))
         console.log(`Ajout de '${name}' terminé.`);
       } catch (e: any) {
         console.error("Erreur lors de l'ajout:", e.message);
+        process.exit(1);
+      }
+    }
+  )
+  .command(
+    'build [registryPath]',
+    'Génère le fichier registry.json à partir du dossier registry',
+    (yargs) => {
+      return yargs.positional('registryPath', {
+        describe: 'Chemin vers le dossier registry',
+        type: 'string',
+        default: 'app/src/mastra/registry',
+      });
+    },
+    async (argv) => {
+      try {
+        const { spawn } = require('child_process');
+        const buildScript = path.join(__dirname, 'build.ts');
+        const proc = spawn('bun', [buildScript], { stdio: 'inherit', env: process.env });
+        proc.on('close', (code: number) => process.exit(code));
+      } catch (e: any) {
+        console.error('Erreur lors de la génération du registry:', e.message);
         process.exit(1);
       }
     }
