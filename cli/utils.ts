@@ -4,7 +4,7 @@ import path from 'path';
 export async function loadSettings(settingsPath?: string): Promise<any> {
   let data: string;
   if (!settingsPath) {
-    settingsPath = "https://raw.githubusercontent.com/Killian-Aidalinfo/tsai-registry/refs/heads/main/settings.json";
+    settingsPath = "https://raw.githubusercontent.com/aidalinfo/tsai-registry/refs/heads/main/settings.json";
   }
   if (settingsPath.startsWith("http://") || settingsPath.startsWith("https://")) {
     const res = await fetch(settingsPath);

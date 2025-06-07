@@ -1,6 +1,6 @@
 {
 	"settings": {
-		"url": "https://github.com/Killian-Aidalinfo/tsai-registry",
+		"url": "https://github.com/aidalinfo/tsai-registry",
 		"registry": "registry.json",
 		"local": "src/mastra/registry"
 	},
