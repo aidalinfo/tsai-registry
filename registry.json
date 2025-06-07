@@ -1,1 +1,9 @@
-{}
+{
+	"research-agent": {
+		"type": "agent",
+		"name": "research-agent",
+		"files": ["src/mastra/resgitry/agents/research-agent/index.ts", "src/mastra/resgitry/agents/research-agent/mcp.ts",  "src/mastra/resgitry/agents/research-agent/agent.ts"],
+		"dependencies": ["@mastra/mcp", "exaTools"],
+		"envs": ["EXA_API_KEY"]
+	}
+}
