@@ -4,57 +4,7 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs";
 import path from "path";
-
-// Fonction pour charger les paramètres
-async function loadSettings(settingsPath?: string): Promise<any> {
-  let data: string;
-  if (!settingsPath) {
-    // Utiliser l'URL par défaut si aucun chemin n'est fourni
-    settingsPath = "https://raw.githubusercontent.com/Killian-Aidalinfo/tsai-registry/refs/heads/main/settings.json";
-  }
-  if (settingsPath.startsWith("http://") || settingsPath.startsWith("https://")) {
-    // Charger depuis une URL distante
-    const res = await fetch(settingsPath);
-    if (!res.ok) throw new Error(`Erreur lors du chargement distant: ${res.statusText}`);
-    data = await res.text();
-  } else {
-    // Charger depuis un fichier local
-    const resolvedPath = path.isAbsolute(settingsPath)
-      ? settingsPath
-      : path.join(process.cwd(), settingsPath);
-    if (!fs.existsSync(resolvedPath)) throw new Error(`Fichier introuvable: ${resolvedPath}`);
-    data = fs.readFileSync(resolvedPath, "utf-8");
-  }
-  return JSON.parse(data);
-}
-
-// Fonction pour charger le registry
-async function loadRegistry(registryPath: string, settingsUrl?: string): Promise<any> {
-  let data: string;
-  // Si ce n'est pas une URL, mais settingsUrl est défini, on construit l'URL raw GitHub
-  if (!registryPath.startsWith("http://") && !registryPath.startsWith("https://") && settingsUrl) {
-    // On supporte les URLs GitHub classiques
-    // Ex: https://github.com/Killian-Aidalinfo/tsai-registry => https://raw.githubusercontent.com/Killian-Aidalinfo/tsai-registry/refs/heads/main/registry.json
-    let repo = settingsUrl.replace("https://github.com/", "");
-    // Utilise la branche main par défaut
-    const branch = "main";
-    registryPath = `https://raw.githubusercontent.com/${repo}/refs/heads/${branch}/${registryPath}`;
-  }
-  if (registryPath.startsWith("http://") || registryPath.startsWith("https://")) {
-    const res = await fetch(registryPath);
-    if (!res.ok) throw new Error(`Erreur lors du chargement du registry: ${res.statusText}`);
-    data = await res.text();
-  } else {
-    const resolvedPath = path.isAbsolute(registryPath)
-      ? registryPath
-      : path.join(process.cwd(), registryPath);
-    if (!fs.existsSync(resolvedPath)) throw new Error(`Registry introuvable: ${resolvedPath}`);
-    data = fs.readFileSync(resolvedPath, "utf-8");
-  }
-  return JSON.parse(data);
-}
-
-// Squelette de la CLI avec yargs
+import { loadSettings, loadRegistry } from "./utils";
 
 yargs(hideBin(process.argv))
   .command(
@@ -100,7 +50,7 @@ yargs(hideBin(process.argv))
         const registry = await loadRegistry(registryPath, settingsUrl);
         const type = argv.type as string | undefined;
         const items = Object.entries(registry).filter(([_, v]: [string, any]) =>
-          !type || v.type === type.slice(0, -1) // 'agents' => 'agent', etc.
+          !type || v.type === type.slice(0, -1)
         );
         if (items.length === 0) {
           console.log(type ? `Aucun objet de type ${type}` : "Aucun objet trouvé dans le registry.");
