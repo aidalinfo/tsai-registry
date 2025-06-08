@@ -28,16 +28,16 @@ The AI ecosystem is moving fast, and many Python frameworks (LangChain, CrewAI, 
 
 - **List available agents:**
   ```sh
-  bun cli/index.ts list
-  bun cli/index.ts list agents
+  npx tsai-registry list
+  npx tsai-registry list agents
   ```
 - **Add an agent to your project:**
   ```sh
-  bun cli/index.ts add <agent-name>
+  npx tsai-registry add <agent-name>
   ```
 - **Show the current configuration:**
   ```sh
-  bun cli/index.ts settings
+  npx tsai-registry settings
   ```
 
 > The default registry is this open source repository. The whole community can contribute and share their agents!
@@ -48,7 +48,7 @@ The AI ecosystem is moving fast, and many Python frameworks (LangChain, CrewAI, 
 2. Add your TypeScript files in this folder
 3. Run the build command to update the registry:
    ```sh
-   bun cli/index.ts build <path/to/registry>
+   npx tsai-registry build <path/to/registry>
    ```
 4. Your agent will be automatically referenced in `registry.json`
 5. Open a Pull Request on this repo to share it with the community!
@@ -58,7 +58,7 @@ The AI ecosystem is moving fast, and many Python frameworks (LangChain, CrewAI, 
 To generate or update the `registry.json` file (useful if you want to host your own registry):
 
 ```sh
-bun cli/index.ts build <path/to/registry>
+npx tsai-registry build <path/to/registry>
 ```
 
 - `<path/to/registry>` is **required**.
@@ -110,16 +110,16 @@ L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (Lan
 
 - **Lister les agents disponibles :**
   ```sh
-  bun cli/index.ts list
-  bun cli/index.ts list agents
+  npx tsai-registry list
+  npx tsai-registry list agents
   ```
 - **Ajouter un agent dans votre projet :**
   ```sh
-  bun cli/index.ts add <nom-agent>
+  npx tsai-registry add <nom-agent>
   ```
 - **Afficher la configuration utilisée :**
   ```sh
-  bun cli/index.ts settings
+  npx tsai-registry settings
   ```
 
 > Le registry par défaut est ce dépôt open source. Toute la communauté peut y contribuer pour partager ses agents !
@@ -130,7 +130,7 @@ L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (Lan
 2. Ajoutez vos fichiers TypeScript dans ce dossier
 3. Lancez la commande de build pour mettre à jour le registry :
    ```sh
-   bun cli/index.ts build <chemin/vers/registry>
+   npx tsai-registry build <chemin/vers/registry>
    ```
 4. Votre agent sera automatiquement référencé dans `registry.json`
 5. Proposez une Pull Request sur ce dépôt pour le partager à la communauté !
@@ -140,7 +140,7 @@ L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (Lan
 Pour générer ou mettre à jour le fichier `registry.json` (utile si vous souhaitez héberger votre propre registry) :
 
 ```sh
-bun cli/index.ts build <chemin/vers/registry>
+npx tsai-registry build <chemin/vers/registry>
 ```
 
 - `<chemin/vers/registry>` est **obligatoire**.
@@ -161,3 +161,26 @@ Ce script va :
 - Forkez ce repo, ajoutez vos agents, ouvrez une Pull Request !
 - Documentez bien chaque agent (README, exemples, dépendances, variables d'environnement).
 - Inspirez-vous de l'écosystème Python et de shadcn/ui pour la philosophie "open, modulaire, personnalisable".
+
+## 🛠️ Développement (dev)
+
+Pour développer ou tester la CLI en local :
+
+- Depuis ce dossier, installe les dépendances :
+  ```sh
+  bun install
+  ```
+- Pour lancer une commande en local (exemple pour lister les agents) :
+  ```sh
+  bun run index.ts list
+  ```
+- Pour builder la CLI localement :
+  ```sh
+  bun run build
+  ```
+- Pour tester une commande sur le build :
+  ```sh
+  bun run dist/index.js list
+  ```
+
+> Tu peux aussi utiliser `bun run index.ts ...` pour toutes les commandes disponibles.
