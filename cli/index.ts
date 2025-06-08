@@ -96,13 +96,69 @@ yargs(hideBin(process.argv))
         // Création du dossier cible
         const targetDir = path.join(process.cwd(), localPath, entry.type, name);
         if (fs.existsSync(targetDir)) {
-          const prompt = require('readline-sync');
-          const overwrite = prompt.question(`Le dossier ${targetDir} existe déjà. Overwrite ? (y/N): `);
-          if (overwrite.toLowerCase() !== 'y') {
-            console.log('Abandon.');
-            process.exit(0);
+          const readline = require('readline');
+          const rl = readline.createInterface({
+            input: process.stdin,
+            output: process.stdout
+          });
+          rl.question(`Le dossier ${targetDir} existe déjà. Overwrite ? (y/N): `, (answer: string) => {
+            rl.close();
+            if (answer.trim().toLowerCase() === 'y') {
+              fs.rmSync(targetDir, { recursive: true, force: true });
+              fs.mkdirSync(targetDir, { recursive: true });
+              proceed();
+            } else {
+              console.log('Abandon.');
+              process.exit(0);
+            }
+          });
+          function proceed() {
+            // Téléchargement des fichiers
+            (async () => {
+              for (const file of entry.files) {
+                let fileUrl = file;
+                if (!file.startsWith('http')) {
+                  // Générer l'URL raw GitHub
+                  let repo = settingsUrl.replace("https://github.com/", "");
+                  const branch = "main";
+                  fileUrl = `https://raw.githubusercontent.com/${repo}/refs/heads/${branch}/${file}`;
+                }
+                const res = await fetch(fileUrl);
+                if (!res.ok) throw new Error(`Erreur lors du téléchargement de ${fileUrl}: ${res.statusText}`);
+                const content = await res.text();
+                const localFile = path.join(targetDir, path.basename(file));
+                fs.writeFileSync(localFile, content, 'utf-8');
+                console.log(`Fichier téléchargé: ${localFile}`);
+              }
+              // Installation des dépendances
+              if (entry.dependencies && entry.dependencies.length > 0) {
+                console.log('Installation des dépendances:', entry.dependencies.join(', '));
+                let pkgManager = 'bun';
+                if (fs.existsSync(path.join(process.cwd(), 'pnpm-lock.yaml'))) pkgManager = 'pnpm';
+                else if (fs.existsSync(path.join(process.cwd(), 'package-lock.json'))) pkgManager = 'npm';
+                else if (fs.existsSync(path.join(process.cwd(), 'yarn.lock'))) pkgManager = 'yarn';
+                let installCmd = '';
+                if (pkgManager === 'bun') installCmd = `bun add ${entry.dependencies.join(' ')}`;
+                else if (pkgManager === 'pnpm') installCmd = `pnpm add ${entry.dependencies.join(' ')}`;
+                else if (pkgManager === 'npm') installCmd = `npm install ${entry.dependencies.join(' ')}`;
+                else if (pkgManager === 'yarn') installCmd = `yarn add ${entry.dependencies.join(' ')}`;
+                const { execSync } = require('child_process');
+                execSync(installCmd, { stdio: 'inherit' });
+              }
+              // Affichage des variables d'environnement
+              if (entry.envs && entry.envs.length > 0) {
+                console.log('\nVariables d\'environnement à ajouter dans votre .env :');
+                for (const env of entry.envs) {
+                  console.log(`${env}=`);
+                }
+              }
+              console.log(`Ajout de '${name}' terminé.`);
+            })().catch((e: any) => {
+              console.error("Erreur lors de l'ajout:", e.message);
+              process.exit(1);
+            });
           }
-          fs.rmSync(targetDir, { recursive: true, force: true });
+          return;
         }
         fs.mkdirSync(targetDir, { recursive: true });
         // Téléchargement des fichiers
