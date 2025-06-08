@@ -1,87 +1,5 @@
 # tsai-registry
 
-## 🌟 Motivation & Vision
-
-L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (LangChain, CrewAI, etc.) proposent déjà des agents préconçus, facilement réutilisables et partageables. Pourtant, il n'existait pas d'équivalent simple, ouvert et communautaire pour l'écosystème TypeScript/JavaScript. 
-
-**tsai-registry** s'inspire de l'expérience shadcn/ui :
-- Permettre à tout développeur d'explorer, d'ajouter et de partager des agents, workflows et outils Mastra, sans dépendance forte au cœur du framework.
-- Favoriser la réutilisation, la personnalisation et la contribution communautaire.
-- Offrir une expérience "copier-coller" ou "add agent" simple, personnalisable, et à terme versionnable.
-
-## 🚀 Fonctionnalités principales
-
-- **Catalogue communautaire** d'agents, workflows et outils Mastra prêts à l'emploi.
-- **CLI simple** pour lister, importer et configurer des agents dans votre projet.
-- **Aucune dépendance forte** : les agents sont copiés dans votre code, modifiables à volonté.
-- **Fichier registry.json** généré automatiquement pour centraliser la description des agents.
-- **Extensible** : tout le monde peut proposer de nouveaux agents via des PR sur ce dépôt.
-
-## 🔥 Pourquoi utiliser tsai-registry ?
-
-- Gagnez du temps : réutilisez des agents éprouvés, inspirez-vous de la communauté.
-- Personnalisez : modifiez librement le code importé, comme pour un composant shadcn/ui.
-- Contribuez : partagez vos agents pour enrichir l'écosystème Mastra/AI.
-- Restez indépendant : pas de lock-in, pas de dépendance cachée.
-
-## ⚡️ Utilisation rapide
-
-- **Lister les agents disponibles :**
-  ```sh
-  bun cli/index.ts list
-  bun cli/index.ts list agents
-  ```
-- **Ajouter un agent dans votre projet :**
-  ```sh
-  bun cli/index.ts add <nom-agent>
-  ```
-- **Afficher la configuration utilisée :**
-  ```sh
-  bun cli/index.ts settings
-  ```
-
-> Le registry par défaut est ce dépôt open source. Toute la communauté peut y contribuer pour partager ses agents !
-
-## 🛠️ Ajouter un agent au registry
-
-1. Créez un dossier dans `<chemin/vers/registry>/agents/<nom-de-ton-agent>`
-2. Ajoutez vos fichiers TypeScript dans ce dossier
-3. Lancez la commande de build pour mettre à jour le registry :
-   ```sh
-   bun cli/index.ts build <chemin/vers/registry>
-   ```
-4. Votre agent sera automatiquement référencé dans `registry.json`
-5. Proposez une Pull Request sur ce dépôt pour le partager à la communauté !
-
-## 📝 Génération du registry (avancé)
-
-Pour générer ou mettre à jour le fichier `registry.json` (utile si vous souhaitez héberger votre propre registry) :
-
-```sh
-bun cli/index.ts build <chemin/vers/registry>
-```
-
-- `<chemin/vers/registry>` est **obligatoire**.
-
-Ce script va :
-- Parcourir tous les dossiers d’agents, workflows, tools, etc. dans le chemin indiqué
-- Lister les fichiers (hors extensions ignorées, voir `settings.json`)
-- Extraire les dépendances externes et variables d’environnement utilisées
-- Générer un fichier `registry.json` à la racine du projet
-
-## ⚙️ Configuration
-
-- Les extensions à ignorer lors du build sont définies dans `settings.json` sous la clé `build.ignoreExtensions`.
-- Le chemin du registry et du dossier local sont aussi configurables dans `settings.json`.
-
-## 🤝 Contribuer
-
-- Forkez ce repo, ajoutez vos agents, ouvrez une Pull Request !
-- Documentez bien chaque agent (README, exemples, dépendances, variables d'environnement).
-- Inspirez-vous de l'écosystème Python et de shadcn/ui pour la philosophie "open, modulaire, personnalisable".
-
----
-
 ## 🇬🇧 Motivation & Vision
 
 The AI ecosystem is moving fast, and many Python frameworks (LangChain, CrewAI, etc.) already offer prebuilt, reusable, and shareable agents. But there was no simple, open, community-driven equivalent for TypeScript/JavaScript.
@@ -161,3 +79,85 @@ This script will:
 - Fork this repo, add your agents, open a Pull Request!
 - Document each agent well (README, examples, dependencies, environment variables).
 - Get inspired by the Python ecosystem and shadcn/ui for an "open, modular, customizable" philosophy.
+
+---
+
+## 🌟 Motivation & Vision
+
+L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (LangChain, CrewAI, etc.) proposent déjà des agents préconçus, facilement réutilisables et partageables. Pourtant, il n'existait pas d'équivalent simple, ouvert et communautaire pour l'écosystème TypeScript/JavaScript. 
+
+**tsai-registry** s'inspire de l'expérience shadcn/ui :
+- Permettre à tout développeur d'explorer, d'ajouter et de partager des agents, workflows et outils Mastra, sans dépendance forte au cœur du framework.
+- Favoriser la réutilisation, la personnalisation et la contribution communautaire.
+- Offrir une expérience "copier-coller" ou "add agent" simple, personnalisable, et à terme versionnable.
+
+## 🚀 Fonctionnalités principales
+
+- **Catalogue communautaire** d'agents, workflows et outils Mastra prêts à l'emploi.
+- **CLI simple** pour lister, importer et configurer des agents dans votre projet.
+- **Aucune dépendance forte** : les agents sont copiés dans votre code, modifiables à volonté.
+- **Fichier registry.json** généré automatiquement pour centraliser la description des agents.
+- **Extensible** : tout le monde peut proposer de nouveaux agents via des PR sur ce dépôt.
+
+## 🔥 Pourquoi utiliser tsai-registry ?
+
+- Gagnez du temps : réutilisez des agents éprouvés, inspirez-vous de la communauté.
+- Personnalisez : modifiez librement le code importé, comme pour un composant shadcn/ui.
+- Contribuez : partagez vos agents pour enrichir l'écosystème Mastra/AI.
+- Restez indépendant : pas de lock-in, pas de dépendance cachée.
+
+## ⚡️ Utilisation rapide
+
+- **Lister les agents disponibles :**
+  ```sh
+  bun cli/index.ts list
+  bun cli/index.ts list agents
+  ```
+- **Ajouter un agent dans votre projet :**
+  ```sh
+  bun cli/index.ts add <nom-agent>
+  ```
+- **Afficher la configuration utilisée :**
+  ```sh
+  bun cli/index.ts settings
+  ```
+
+> Le registry par défaut est ce dépôt open source. Toute la communauté peut y contribuer pour partager ses agents !
+
+## 🛠️ Ajouter un agent au registry
+
+1. Créez un dossier dans `<chemin/vers/registry>/agents/<nom-de-ton-agent>`
+2. Ajoutez vos fichiers TypeScript dans ce dossier
+3. Lancez la commande de build pour mettre à jour le registry :
+   ```sh
+   bun cli/index.ts build <chemin/vers/registry>
+   ```
+4. Votre agent sera automatiquement référencé dans `registry.json`
+5. Proposez une Pull Request sur ce dépôt pour le partager à la communauté !
+
+## 📝 Génération du registry (avancé)
+
+Pour générer ou mettre à jour le fichier `registry.json` (utile si vous souhaitez héberger votre propre registry) :
+
+```sh
+bun cli/index.ts build <chemin/vers/registry>
+```
+
+- `<chemin/vers/registry>` est **obligatoire**.
+
+Ce script va :
+- Parcourir tous les dossiers d’agents, workflows, tools, etc. dans le chemin indiqué
+- Lister les fichiers (hors extensions ignorées, voir `settings.json`)
+- Extraire les dépendances externes et variables d’environnement utilisées
+- Générer un fichier `registry.json` à la racine du projet
+
+## ⚙️ Configuration
+
+- Les extensions à ignorer lors du build sont définies dans `settings.json` sous la clé `build.ignoreExtensions`.
+- Le chemin du registry et du dossier local sont aussi configurables dans `settings.json`.
+
+## 🤝 Contribuer
+
+- Forkez ce repo, ajoutez vos agents, ouvrez une Pull Request !
+- Documentez bien chaque agent (README, exemples, dépendances, variables d'environnement).
+- Inspirez-vous de l'écosystème Python et de shadcn/ui pour la philosophie "open, modulaire, personnalisable".
