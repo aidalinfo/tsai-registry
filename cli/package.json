@@ -41,7 +41,6 @@
   "author": "Aidalinfo",
   "module": "index.ts",
   "type": "module",
-  "private": true,
   "devDependencies": {
     "@types/bun": "latest",
     "@types/yargs": "^17.0.33"
