@@ -68,14 +68,14 @@ yargs(hideBin(process.argv))
   )
   .command(
     'add <name>',
-    'Ajoute un objet du registry en local',
+    'Add a registry object locally',
     (yargs) => {
       return yargs.positional('name', {
-        describe: "Nom de l'objet à ajouter (ex: research-agent)",
+        describe: "Name of the object to add (e.g., research-agent)",
         type: 'string',
       }).option('settings-path', {
         alias: 's',
-        describe: 'Chemin local ou URL du fichier settings.json',
+        describe: 'Local path or URL to the settings.json file',
         type: 'string',
       });
     },
@@ -86,14 +86,14 @@ yargs(hideBin(process.argv))
         const registryPath = settings.settings?.registry;
         const settingsUrl = settings.settings?.url;
         const localPath = settings.settings?.local;
-        if (!registryPath || !localPath) throw new Error("Le chemin du registry ou du dossier local n'est pas défini dans les settings.");
+        if (!registryPath || !localPath) throw new Error("Registry path or local folder path is not defined in settings.");
         const registry = await loadRegistry(registryPath, settingsUrl);
         const entry = registry[name];
         if (!entry) {
-          console.error(`L'objet '${name}' n'existe pas dans le registry.`);
+          console.error(`The object '${name}' does not exist in the registry.`);
           process.exit(1);
         }
-        // Création du dossier cible
+        // Target directory creation
         const targetDir = path.join(process.cwd(), localPath, entry.type, name);
         if (fs.existsSync(targetDir)) {
           const readline = require('readline');
@@ -101,38 +101,38 @@ yargs(hideBin(process.argv))
             input: process.stdin,
             output: process.stdout
           });
-          rl.question(`Le dossier ${targetDir} existe déjà. Overwrite ? (y/N): `, (answer: string) => {
+          rl.question(`The folder ${targetDir} already exists. Overwrite? (y/N): `, (answer: string) => {
             rl.close();
             if (answer.trim().toLowerCase() === 'y') {
               fs.rmSync(targetDir, { recursive: true, force: true });
               fs.mkdirSync(targetDir, { recursive: true });
               proceed();
             } else {
-              console.log('Abandon.');
+              console.log('Aborted.');
               process.exit(0);
             }
           });
           function proceed() {
-            // Téléchargement des fichiers
+            // Download files
             (async () => {
               for (const file of entry.files) {
                 let fileUrl = file;
                 if (!file.startsWith('http')) {
-                  // Générer l'URL raw GitHub
+                  // Generate raw GitHub URL
                   let repo = settingsUrl.replace("https://github.com/", "");
                   const branch = "main";
                   fileUrl = `https://raw.githubusercontent.com/${repo}/refs/heads/${branch}/${file}`;
                 }
                 const res = await fetch(fileUrl);
-                if (!res.ok) throw new Error(`Erreur lors du téléchargement de ${fileUrl}: ${res.statusText}`);
+                if (!res.ok) throw new Error(`Error downloading ${fileUrl}: ${res.statusText}`);
                 const content = await res.text();
                 const localFile = path.join(targetDir, path.basename(file));
                 fs.writeFileSync(localFile, content, 'utf-8');
-                console.log(`Fichier téléchargé: ${localFile}`);
+                console.log(`Downloaded file: ${localFile}`);
               }
-              // Installation des dépendances
+              // Install dependencies
               if (entry.dependencies && entry.dependencies.length > 0) {
-                console.log('Installation des dépendances:', entry.dependencies.join(', '));
+                console.log('Installing dependencies:', entry.dependencies.join(', '));
                 let pkgManager = 'bun';
                 if (fs.existsSync(path.join(process.cwd(), 'pnpm-lock.yaml'))) pkgManager = 'pnpm';
                 else if (fs.existsSync(path.join(process.cwd(), 'package-lock.json'))) pkgManager = 'npm';
@@ -145,42 +145,42 @@ yargs(hideBin(process.argv))
                 const { execSync } = require('child_process');
                 execSync(installCmd, { stdio: 'inherit' });
               }
-              // Affichage des variables d'environnement
+              // Show environment variables
               if (entry.envs && entry.envs.length > 0) {
-                console.log('\nVariables d\'environnement à ajouter dans votre .env :');
+                console.log('\nEnvironment variables to add to your .env:');
                 for (const env of entry.envs) {
                   console.log(`${env}=`);
                 }
               }
-              console.log(`Ajout de '${name}' terminé.`);
+              console.log(`'${name}' added successfully.`);
             })().catch((e: any) => {
-              console.error("Erreur lors de l'ajout:", e.message);
+              console.error("Error while adding:", e.message);
               process.exit(1);
             });
           }
           return;
         }
         fs.mkdirSync(targetDir, { recursive: true });
-        // Téléchargement des fichiers
+        // Download files
         for (const file of entry.files) {
           let fileUrl = file;
           if (!file.startsWith('http')) {
-            // Générer l'URL raw GitHub
+            // Generate raw GitHub URL
             let repo = settingsUrl.replace("https://github.com/", "");
             const branch = "main";
             fileUrl = `https://raw.githubusercontent.com/${repo}/refs/heads/${branch}/${file}`;
           }
           const res = await fetch(fileUrl);
-          if (!res.ok) throw new Error(`Erreur lors du téléchargement de ${fileUrl}: ${res.statusText}`);
+          if (!res.ok) throw new Error(`Error downloading ${fileUrl}: ${res.statusText}`);
           const content = await res.text();
           const localFile = path.join(targetDir, path.basename(file));
           fs.writeFileSync(localFile, content, 'utf-8');
-          console.log(`Fichier téléchargé: ${localFile}`);
+          console.log(`Downloaded file: ${localFile}`);
         }
-        // Installation des dépendances
+        // Install dependencies
         if (entry.dependencies && entry.dependencies.length > 0) {
-          console.log('Installation des dépendances:', entry.dependencies.join(', '));
-          // Détection du package manager
+          console.log('Installing dependencies:', entry.dependencies.join(', '));
+          // Detect package manager
           let pkgManager = 'bun';
           if (fs.existsSync(path.join(process.cwd(), 'pnpm-lock.yaml'))) pkgManager = 'pnpm';
           else if (fs.existsSync(path.join(process.cwd(), 'package-lock.json'))) pkgManager = 'npm';
@@ -193,16 +193,16 @@ yargs(hideBin(process.argv))
           const { execSync } = require('child_process');
           execSync(installCmd, { stdio: 'inherit' });
         }
-        // Affichage des variables d'environnement
+        // Show environment variables
         if (entry.envs && entry.envs.length > 0) {
-          console.log('\nVariables d\'environnement à ajouter dans votre .env :');
+          console.log('\nEnvironment variables to add to your .env:');
           for (const env of entry.envs) {
             console.log(`${env}=`);
           }
         }
-        console.log(`Ajout de '${name}' terminé.`);
+        console.log(`'${name}' added successfully.`);
       } catch (e: any) {
-        console.error("Erreur lors de l'ajout:", e.message);
+        console.error("Error while adding:", e.message);
         process.exit(1);
       }
     }

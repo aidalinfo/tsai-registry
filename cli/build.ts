@@ -98,5 +98,5 @@ import { write } from 'bun';
   }
 
   await write(OUTPUT_PATH, JSON.stringify(registry, null, 2));
-  console.log('registry.json généré avec succès.');
+  console.log('registry.json generate with success.');
 })();
