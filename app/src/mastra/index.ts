@@ -4,10 +4,10 @@ import { PinoLogger } from '@mastra/loggers';
 import { LibSQLStore } from '@mastra/libsql';
 import { weatherWorkflow } from './workflows/weather-workflow';
 import { weatherAgent } from './agents/weather-agent';
-
+import { exaAgent } from './registry/agents/exa-agent/index'
 export const mastra = new Mastra({
-  workflows: { weatherWorkflow },
-  agents: { weatherAgent },
+  workflows: { weatherWorkflow  },
+  agents: { weatherAgent, exaAgent },
   storage: new LibSQLStore({
     // stores telemetry, evals, ... into memory storage, if it needs to persist, change to file:../mastra.db
     url: ":memory:",

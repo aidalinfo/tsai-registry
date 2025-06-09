@@ -22,7 +22,9 @@
     "@mastra/core": "^0.10.3",
     "@mastra/libsql": "^0.10.1",
     "@mastra/loggers": "^0.10.1",
+    "@mastra/mcp": "^0.10.2",
     "@mastra/memory": "^0.10.2",
+    "exa-js": "^1.8.8",
     "zod": "^3.25.56"
   },
   "devDependencies": {

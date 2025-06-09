@@ -1,4 +1,21 @@
 {
+  "exa-agent": {
+    "type": "agents",
+    "name": "exa-agent",
+    "files": [
+      "app/src/mastra/registry/agents/exa-agent/web-agent.ts",
+      "app/src/mastra/registry/agents/exa-agent/index.ts"
+    ],
+    "dependencies": [
+      "@mastra/core",
+      "@ai-sdk/openai",
+      "@mastra/memory",
+      "@mastra/mcp"
+    ],
+    "envs": [
+      "EXA_API_KEY"
+    ]
+  },
   "weather-agent": {
     "type": "agents",
     "name": "weather-agent",
