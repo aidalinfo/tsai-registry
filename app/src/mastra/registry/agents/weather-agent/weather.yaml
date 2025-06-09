@@ -1,0 +1,9 @@
+name: Weather Agent
+description: |
+  Weather Agent a tool for weather data collection
+tags: 
+  - agent
+  - weather
+  - tool
+  - mastra
+author: Mastra

@@ -1,8 +1,46 @@
 {
-  "name": "cli",
+  "name": "tsai-registry",
+  "version": "0.1.1",
+  "description": "Community-driven registry CLI for Mastra/AI agents, workflows, and tools",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "tsai-registry": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "settings.json"
+  ],
+  "scripts": {
+    "build": "bun build index.ts --outdir dist --target bun",
+    "prepublishOnly": "bun run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aidalinfo/tsai-registry.git"
+  },
+  "keywords": [
+    "mastra",
+    "ai",
+    "agents",
+    "registry",
+    "typescript",
+    "javascript",
+    "openai",
+    "workflows",
+    "tools",
+    "community",
+    "opensource",
+    "shadcn",
+    "automation",
+    "prompt-engineering",
+    "sharing",
+    "reusable"
+  ],
+  "author": "Aidalinfo",
   "module": "index.ts",
   "type": "module",
-  "private": true,
   "devDependencies": {
     "@types/bun": "latest",
     "@types/yargs": "^17.0.33"
