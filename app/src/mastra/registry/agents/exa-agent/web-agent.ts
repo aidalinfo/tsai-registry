@@ -10,7 +10,7 @@ export const mcp = new MCPClient({
   servers: {
     exa: {
       command: "npx",
-      args: ["exa-mcp-server"],
+      args: ["-y", "exa-mcp-server"],
       env: {
         EXA_API_KEY: process.env.EXA_API_KEY ?? "",
       },
