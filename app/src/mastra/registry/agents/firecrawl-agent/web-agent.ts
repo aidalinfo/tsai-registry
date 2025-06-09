@@ -9,11 +9,11 @@ import { MCPClient } from "@mastra/mcp";
 
 export const mcp = new MCPClient({
   servers: {
-    exa: {
+    firecrawl: {
       command: "npx",
-      args: ["-y", "exa-mcp-server"],
+      args: ["-y", "firecrawl-mcp"],
       env: {
-        EXA_API_KEY: process.env.EXA_API_KEY ?? "",
+        FIRECRAWL_API_KEY: process.env.FIRECRAWL_API_KEY ?? "",
       },
     },
   },
@@ -21,8 +21,8 @@ export const mcp = new MCPClient({
 
 const today = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-export const exaAgent = new Agent({
-  name: "Exa Agent",
+export const firecrawlAgent = new Agent({
+  name: "Firecrawl Agent",
   instructions: `You are an expert websearch agent. Your goal is to research topics thoroughly by:
 
   1. Generating specific search queries related to the main topic
@@ -50,6 +50,7 @@ export const exaAgent = new Agent({
     storage: new LibSQLStore({
       url: 'file:../mastra.db',
     }),
-  }),  model: mainModel,
+  }),
+  model: mainModel,
   tools: await mcp.getTools()
 });
