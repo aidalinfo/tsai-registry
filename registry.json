@@ -1,4 +1,22 @@
 {
+  "firecrawl-agent": {
+    "type": "agents",
+    "name": "firecrawl-agent",
+    "files": [
+      "app/src/mastra/registry/agents/firecrawl-agent/web-agent.ts",
+      "app/src/mastra/registry/agents/firecrawl-agent/index.ts"
+    ],
+    "dependencies": [
+      "@mastra/core",
+      "@ai-sdk/openai",
+      "@mastra/memory",
+      "@mastra/libsql",
+      "@mastra/mcp"
+    ],
+    "envs": [
+      "FIRECRAWL_API_KEY"
+    ]
+  },
   "exa-agent": {
     "type": "agents",
     "name": "exa-agent",
@@ -10,6 +28,7 @@
       "@mastra/core",
       "@ai-sdk/openai",
       "@mastra/memory",
+      "@mastra/libsql",
       "@mastra/mcp"
     ],
     "envs": [
