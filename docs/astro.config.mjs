@@ -19,9 +19,29 @@ export default defineConfig({
 
   integrations: [
     vue(), 
-    mdx()
+    mdx({
+      // Configuration pour appliquer automatiquement le layout aux MDX
+      extendMarkdownConfig: false,
+      remarkPlugins: [
+        remarkGfm,
+        remarkCodeTitles,
+      ],
+      rehypePlugins: [
+        rehypeSlug,
+        [rehypeAutolinkHeadings, {
+          behavior: 'wrap',
+          properties: {
+            className: ['anchor-link'],
+            ariaLabel: 'Lien vers cette section'
+          }
+        }],
+        rehypeCodeTitles,
+      ],
+      // Appliquer le layout automatiquement
+      optimize: true,
+    })
   ],
-
+  // Configuration globale pour Astro
   markdown: {
     // Configuration globale pour Markdown et MDX
     remarkPlugins: [

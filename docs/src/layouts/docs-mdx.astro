@@ -1,0 +1,19 @@
+---
+import DefaultLayout from "@/layouts/main.astro";
+import DocsLayout from '@/components/DocsLayout.vue'
+
+// Récupérer les métadonnées du frontmatter MDX
+const { frontmatter } = Astro.props;
+const title = frontmatter?.title || "Documentation";
+const description = frontmatter?.description || "Guide complet pour utiliser tsai-registry";
+---
+
+<DefaultLayout content={{ title: `${title} - tsai-registry`, description }}>
+  <DocsLayout client:load title={title}>
+    <div class="max-w-4xl mx-auto">
+      <div class="prose prose-slate dark:prose-invert max-w-none">
+        <slot />
+      </div>
+    </div>
+  </DocsLayout>
+</DefaultLayout>

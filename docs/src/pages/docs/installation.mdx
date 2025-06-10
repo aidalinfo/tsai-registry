@@ -1,0 +1,82 @@
+---
+layout: '@/layouts/docs-mdx.astro'
+title: "Installation"
+description: "Guide d'installation de tsai-registry"
+---
+
+# Installation
+
+Cette page explique comment installer et configurer tsai-registry dans votre projet.
+
+## Prérequis
+
+Avant d'installer tsai-registry, assurez-vous d'avoir :
+
+- Node.js 18+ installé
+- Un gestionnaire de paquets (npm, pnpm, ou yarn)
+- Un projet Mastra existant
+
+## Installation via npm
+
+```bash
+npm install @tsai/registry
+```
+
+## Installation via pnpm
+
+```bash
+pnpm add @tsai/registry
+```
+
+## Installation via yarn
+
+```bash
+yarn add @tsai/registry
+```
+
+## Configuration
+
+Après l'installation, configurez votre projet :
+
+```typescript
+// mastra.config.ts
+import { Mastra } from '@mastra/core'
+import { WeatherAgent } from '@tsai/registry/agents'
+
+export const mastra = new Mastra({
+  agents: [
+    new WeatherAgent({
+      apiKey: process.env.WEATHER_API_KEY
+    })
+  ]
+})
+```
+
+## Variables d'environnement
+
+Créez un fichier `.env` avec les clés API nécessaires :
+
+```env
+# Météo
+WEATHER_API_KEY=your_openweather_api_key
+
+# Recherche web
+EXA_API_KEY=your_exa_api_key
+
+# Web scraping
+FIRECRAWL_API_KEY=your_firecrawl_api_key
+```
+
+## Vérification
+
+Pour vérifier que l'installation fonctionne :
+
+```typescript
+import { WeatherTool } from '@tsai/registry/tools'
+
+const tool = new WeatherTool({
+  apiKey: process.env.WEATHER_API_KEY
+})
+
+console.log('tsai-registry installé avec succès !')
+```
