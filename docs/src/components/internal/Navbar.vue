@@ -20,12 +20,12 @@ import {
         <NavigationMenuItem>
           <NavigationMenuLink href="/docs">Documentation</NavigationMenuLink>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        <!-- <NavigationMenuItem>
           <NavigationMenuLink href="#contact">Contact</NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink href="#faq">FAQ</NavigationMenuLink>
-        </NavigationMenuItem>
+        </NavigationMenuItem> -->
       </NavigationMenuList>
     </NavigationMenu>
   </nav>

@@ -1,6 +1,7 @@
 ---
 import DefaultLayout from "@/layouts/main.astro";
 import ItemHero from "@/components/internal/ItemHero.vue";
+import FilesViewer from "@/components/internal/FilesViewer.astro";
 import fs from 'fs';
 import path from 'path';
 import { getAllYamlItems, getYamlContent } from "@/lib/utils";
@@ -15,6 +16,64 @@ export async function getStaticPaths() {
 const { item } = Astro.params;
 const items = getAllYamlItems();
 const found = items.find(i => `${i.type}-${i.name}` === item);
+
+// Fonction pour extraire l'extension et déterminer le langage
+function getLanguageFromFile(filePath: string): string {
+  const ext = path.extname(filePath);
+  switch (ext) {
+    case '.ts': return 'typescript';
+    case '.js': return 'javascript';
+    case '.json': return 'json';
+    case '.yaml': case '.yml': return 'yaml';
+    case '.md': return 'markdown';
+    default: return 'text';
+  }
+}
+
+// Fonction pour lire le contenu d'un fichier
+function readFileContent(filePath: string): string | null {
+  try {
+    const fullPath = path.resolve('../', filePath);
+    if (fs.existsSync(fullPath)) {
+      return fs.readFileSync(fullPath, 'utf-8');
+    }
+    return null;
+  } catch (error) {
+    console.error(`Erreur lors de la lecture du fichier ${filePath}:`, error);
+    return null;
+  }
+}
+
+// Charger le registry.json pour récupérer les fichiers
+let registryData = null;
+let filesData: Array<{
+  path: string;
+  name: string;
+  content: string | null;
+  language: string;
+  relativePath: string;
+}> = [];
+
+try {
+  const registryPath = path.resolve('../registry.json');
+  const registryContent = fs.readFileSync(registryPath, 'utf-8');
+  registryData = JSON.parse(registryContent);
+  
+  if (found && registryData[found.name]) {
+    const itemFiles = registryData[found.name].files || [];
+    
+    filesData = itemFiles.map((file: string) => ({
+      path: file,
+      name: path.basename(file),
+      content: readFileContent(file),
+      language: getLanguageFromFile(file),
+      relativePath: file.replace(/^app\//, '')
+    }));
+  }
+} catch (error) {
+  console.error('Erreur lors du chargement du registry:', error);
+}
+
 let yamlData = null;
 let relatedFiles: string[] = [];
 if (found) {
@@ -37,7 +96,15 @@ const itemProps = found && yamlData ? {
 
 <DefaultLayout content={{ title: found ? `${found.type} / ${found.name}` : 'Item not found' }}>
   {found && itemProps ? (
-    <ItemHero client:load item={itemProps} />
+    <div>
+      <ItemHero client:load item={itemProps} />
+      
+      {filesData.length > 0 && (
+        <div class="container mx-auto px-4 max-w-4xl">
+          <FilesViewer filesData={filesData} />
+        </div>
+      )}
+    </div>
   ) : (
     <div class="mt-8 text-red-600">Item not found.</div>
   )}

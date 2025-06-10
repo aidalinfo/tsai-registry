@@ -1,0 +1,53 @@
+---
+interface Props {
+  filesData: Array<{
+    path: string;
+    name: string;
+    content: string | null;
+    language: string;
+    relativePath: string;
+  }>;
+}
+
+const { filesData } = Astro.props;
+---
+
+<div class="prose">
+  <h2>📁 Fichiers du composant</h2>
+  
+  {filesData.map((fileData) => (
+    <div class="mb-8">
+      <h3 class="flex items-center gap-2 mb-3">
+        <span class="font-mono text-sm bg-muted px-2 py-1 rounded">
+          {fileData.name}
+        </span>
+        <span class="text-xs text-muted-foreground">
+          {fileData.relativePath}
+        </span>
+      </h3>
+      
+      {fileData.content ? (
+        <div class="relative">
+          <div class="remark-code-title">
+            {fileData.name}
+          </div>
+          <pre class="!mt-0"><code class={`language-${fileData.language}`}>{fileData.content}</code></pre>
+        </div>
+      ) : (
+        <div class="bg-muted p-4 rounded-lg border border-destructive">
+          <p class="text-destructive-foreground mb-0">
+            ❌ Impossible de lire le fichier : <code>{fileData.path}</code>
+          </p>
+        </div>
+      )}
+    </div>
+  ))}
+  
+  {filesData.length === 0 && (
+    <div class="bg-muted p-4 rounded-lg">
+      <p class="text-muted-foreground mb-0">
+        ℹ️ Aucun fichier à afficher pour ce composant.
+      </p>
+    </div>
+  )}
+</div>

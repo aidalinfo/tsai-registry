@@ -1,0 +1,60 @@
+---
+interface Props {
+  code: string;
+  language?: string;
+}
+
+const { code, language } = Astro.props;
+---
+
+<div class="relative group">
+  <div class="remark-code-title">
+    {language || 'code'}
+  </div>
+  <div class="relative">
+    <pre class="!mt-0"><code class={`language-${language || 'text'}`}>{code}</code></pre>
+    <button 
+      class="copy-button absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-muted hover:bg-accent text-muted-foreground hover:text-accent-foreground border border-border rounded px-2 py-1 text-xs font-medium"
+      data-code={code}
+      onclick="copyToClipboard(this)"
+    >
+      📋 Copier
+    </button>
+  </div>
+</div>
+
+<script>
+  function copyToClipboard(button: HTMLButtonElement): void {
+    const code = button.dataset.code;
+    if (!code) return;
+    
+    navigator.clipboard.writeText(code).then(() => {
+      const originalText = button.textContent;
+      button.textContent = '✅ Copié !';
+      button.style.background = 'var(--color-primary)';
+      button.style.color = 'var(--color-primary-foreground)';
+      
+      setTimeout(() => {
+        button.textContent = originalText;
+        button.style.background = '';
+        button.style.color = '';
+      }, 2000);
+    }).catch(() => {
+      const originalText = button.textContent;
+      button.textContent = '❌ Erreur';
+      setTimeout(() => {
+        button.textContent = originalText;
+      }, 2000);
+    });
+  }
+
+  // Déclaration TypeScript pour la fonction globale
+  declare global {
+    interface Window {
+      copyToClipboard: (button: HTMLButtonElement) => void;
+    }
+  }
+
+  // Rendre la fonction globale
+  window.copyToClipboard = copyToClipboard;
+</script>

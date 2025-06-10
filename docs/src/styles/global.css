@@ -204,9 +204,9 @@
     @apply text-primary hover:text-primary/80 underline underline-offset-4 transition-colors;
   }
 
-  /* Blocs de code */
+  /* Blocs de code avec bouton de copie */
   .prose pre {
-    @apply bg-muted p-4 rounded-lg overflow-x-auto border border-border mb-4;
+    @apply bg-muted p-4 rounded-lg overflow-x-auto border border-border mb-4 relative;
   }
   
   .prose code {

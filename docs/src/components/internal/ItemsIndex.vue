@@ -7,14 +7,26 @@
         placeholder="Search by name..."
         class="w-full md:w-1/2"
       />
-      <select v-model="author" class="border rounded px-3 py-2 w-full md:w-1/4">
-        <option value="">All authors</option>
-        <option v-for="a in authors" :key="a" :value="a">{{ a }}</option>
-      </select>
-      <select v-model="tag" class="border rounded px-3 py-2 w-full md:w-1/4">
-        <option value="">All tags</option>
-        <option v-for="t in tags" :key="t" :value="t">{{ t }}</option>
-      </select>
+      
+      <Select v-model="author">
+        <SelectTrigger class="w-full md:w-1/4">
+          <SelectValue placeholder="All authors" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All authors</SelectItem>
+          <SelectItem v-for="a in authors" :key="a" :value="a">{{ a }}</SelectItem>
+        </SelectContent>
+      </Select>
+      
+      <Select v-model="tag">
+        <SelectTrigger class="w-full md:w-1/4">
+          <SelectValue placeholder="All tags" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All tags</SelectItem>
+          <SelectItem v-for="t in tags" :key="t" :value="t">{{ t }}</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
     <div class="max-w-3xl w-full mx-auto grid gap-6 mt-0">
       <ItemCard
@@ -33,11 +45,19 @@
 import { ref, computed, watchEffect } from 'vue';
 import ItemCard from './ItemCard.vue';
 import { Input } from '@/components/ui/input';
+import { 
+  Select, 
+  SelectContent, 
+  SelectItem, 
+  SelectTrigger, 
+  SelectValue 
+} from '@/components/ui/select';
+
 const props = defineProps<{ items: any[] }>();
 
 const search = ref('');
-const author = ref('');
-const tag = ref('');
+const author = ref('all');
+const tag = ref('all');
 
 const authors = ref<string[]>([]);
 const tags = ref<string[]>([]);
@@ -52,8 +72,8 @@ watchEffect(() => {
 const filteredItems = computed(() => {
   return props.items.filter(item => {
     const matchesName = item.name.toLowerCase().includes(search.value.toLowerCase());
-    const matchesAuthor = !author.value || item.author === author.value;
-    const matchesTag = !tag.value || item.tags.includes(tag.value);
+    const matchesAuthor = author.value === 'all' || item.author === author.value;
+    const matchesTag = tag.value === 'all' || item.tags.includes(tag.value);
     return matchesName && matchesAuthor && matchesTag;
   });
 });
