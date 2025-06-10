@@ -150,15 +150,15 @@
   .prose h1 {
     @apply text-4xl font-bold mb-6 mt-8 text-foreground border-b border-border pb-3;
   }
-  
+
   .prose h2 {
     @apply text-3xl font-semibold mb-4 mt-8 text-foreground border-b border-border pb-2;
   }
-  
+
   .prose h3 {
     @apply text-2xl font-semibold mb-3 mt-6 text-foreground;
   }
-  
+
   .prose h4 {
     @apply text-xl font-medium mb-2 mt-4 text-foreground;
   }
@@ -167,7 +167,7 @@
   .prose .anchor-link {
     @apply text-inherit no-underline hover:text-primary transition-colors;
   }
-  
+
   .prose .anchor-link:hover::after {
     content: " #";
     @apply text-muted-foreground;
@@ -177,11 +177,11 @@
   .prose p {
     @apply mb-4 leading-7 text-foreground;
   }
-  
+
   .prose strong {
     @apply font-semibold text-foreground;
   }
-  
+
   .prose em {
     @apply italic;
   }
@@ -190,11 +190,11 @@
   .prose ul {
     @apply list-disc pl-6 mb-4 space-y-2;
   }
-  
+
   .prose ol {
     @apply list-decimal pl-6 mb-4 space-y-2;
   }
-  
+
   .prose li {
     @apply text-foreground;
   }
@@ -208,11 +208,11 @@
   .prose pre {
     @apply bg-muted p-4 rounded-lg overflow-x-auto border border-border mb-4 relative;
   }
-  
+
   .prose code {
     @apply bg-muted px-2 py-1 rounded text-sm font-mono;
   }
-  
+
   .prose pre code {
     @apply bg-transparent p-0;
   }
@@ -221,7 +221,7 @@
   .prose .remark-code-title {
     @apply bg-muted border border-border border-b-0 px-4 py-2 text-sm font-medium rounded-t-lg text-muted-foreground;
   }
-  
+
   .prose .remark-code-title + pre {
     @apply rounded-t-none mt-0;
   }
@@ -235,11 +235,11 @@
   .prose table {
     @apply w-full border-collapse border border-border mb-4;
   }
-  
+
   .prose th {
     @apply border border-border px-4 py-2 bg-muted font-medium text-left;
   }
-  
+
   .prose td {
     @apply border border-border px-4 py-2;
   }

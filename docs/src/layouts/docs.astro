@@ -1,0 +1,17 @@
+---
+import DefaultLayout from "@/layouts/main.astro";
+import DocsLayout from '@/components/DocsLayout.vue'
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title = "Documentation", description = "Guide complet pour utiliser tsai-registry" } = Astro.props;
+---
+
+<DefaultLayout content={{ title: `${title} - tsai-registry`, description }}>
+  <DocsLayout client:load title={title}>
+    <slot />
+  </DocsLayout>
+</DefaultLayout>

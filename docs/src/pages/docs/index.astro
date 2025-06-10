@@ -1,57 +1,12 @@
 ---
-import DefaultLayout from "@/layouts/main.astro";
+import DocsLayout from "@/layouts/docs.astro";
 import IndexDoc from "@/content/IndexDoc.mdx";
 ---
 
-<DefaultLayout content={{ title: 'Documentation - tsai-registry', description: 'Guide complet pour utiliser tsai-registry - Collection d\'agents et d\'outils Mastra' }}>
-  <div class="container mx-auto px-4 py-8 max-w-4xl">
-    <div class="prose">
+<DocsLayout title="Introduction" description="Guide complet pour utiliser tsai-registry - Collection d'agents et d'outils Mastra">
+  <div class="max-w-4xl mx-auto">
+    <div class="prose prose-slate dark:prose-invert max-w-none">
       <IndexDoc />
     </div>
   </div>
-</DefaultLayout>
-
-<script>
-  // Ajouter des boutons de copie à tous les blocs de code
-  document.addEventListener('DOMContentLoaded', function() {
-    const codeBlocks = document.querySelectorAll('.prose pre');
-    
-    codeBlocks.forEach(pre => {
-      // Ne pas ajouter de bouton si c'est déjà un CodeBlock avec bouton
-      if (pre.querySelector('.copy-button')) return;
-      
-      const code = pre.querySelector('code');
-      if (!code) return;
-      
-      const button = document.createElement('button');
-      button.innerHTML = '📋 Copier';
-      button.className = 'copy-button absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity bg-muted hover:bg-accent text-muted-foreground hover:text-accent-foreground border border-border rounded px-2 py-1 text-xs font-medium';
-      
-      button.addEventListener('click', () => {
-        const text = code.textContent || code.innerText;
-        navigator.clipboard.writeText(text).then(() => {
-          const originalText = button.innerHTML;
-          button.innerHTML = '✅ Copié !';
-          button.style.background = 'var(--color-primary)';
-          button.style.color = 'var(--color-primary-foreground)';
-          
-          setTimeout(() => {
-            button.innerHTML = originalText;
-            button.style.background = '';
-            button.style.color = '';
-          }, 2000);
-        }).catch(() => {
-          const originalText = button.innerHTML;
-          button.innerHTML = '❌ Erreur';
-          setTimeout(() => {
-            button.innerHTML = originalText;
-          }, 2000);
-        });
-      });
-      
-      // Ajouter les classes nécessaires au pre pour le hover
-      pre.classList.add('group', 'relative');
-      pre.appendChild(button);
-    });
-  });
-</script>
+</DocsLayout>
