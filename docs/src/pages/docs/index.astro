@@ -1,0 +1,12 @@
+---
+import DefaultLayout from "@/layouts/main.astro";
+import IndexDoc from "@/content/IndexDoc.mdx";
+---
+
+<DefaultLayout content={{ title: 'Documentation - tsai-registry', description: 'Guide complet pour utiliser tsai-registry - Collection d\'agents et d\'outils Mastra' }}>
+  <div class="container mx-auto px-4 py-8 max-w-4xl">
+    <div class="prose">
+      <IndexDoc />
+    </div>
+  </div>
+</DefaultLayout>

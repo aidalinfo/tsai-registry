@@ -18,7 +18,7 @@ import {
           <NavigationMenuLink href="/items">Items</NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink href="#team">Team</NavigationMenuLink>
+          <NavigationMenuLink href="/docs">Documentation</NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuLink href="#contact">Contact</NavigationMenuLink>

@@ -1,0 +1,137 @@
+---
+title: "Documentation - tsai-registry"
+description: "Guide complet pour utiliser tsai-registry - Collection d'agents et d'outils Mastra"
+---
+
+# Documentation tsai-registry
+
+Bienvenue dans la documentation de **tsai-registry**, votre collection open source d'agents et d'outils Mastra.
+
+## 🚀 Démarrage rapide
+
+tsai-registry est un registre d'agents et d'outils pré-construits pour Mastra, conçu pour accélérer le développement de vos applications IA.
+
+### Installation
+
+```bash
+npm install @tsai/registry
+# ou
+pnpm add @tsai/registry
+# ou  
+yarn add @tsai/registry
+```
+
+### Utilisation de base
+
+```typescript
+import { WeatherAgent } from '@tsai/registry/agents';
+import { WeatherTool } from '@tsai/registry/tools';
+
+// Utiliser un agent
+const weatherAgent = new WeatherAgent({
+  apiKey: process.env.WEATHER_API_KEY
+});
+
+const response = await weatherAgent.run({
+  input: "Quel temps fait-il à Paris ?"
+});
+
+// Utiliser un outil
+const weatherTool = new WeatherTool({
+  apiKey: process.env.WEATHER_API_KEY
+});
+
+const weather = await weatherTool.execute({
+  city: "Paris",
+  country: "FR"
+});
+```
+
+## 📦 Agents disponibles
+
+### Weather Agent
+Agent météorologique intelligent qui peut fournir des informations météorologiques détaillées.
+
+**Fonctionnalités :**
+- Prévisions météo en temps réel
+- Données historiques
+- Alertes météo
+- Support multi-langues
+
+### Exa Agent
+Agent de recherche web avancé utilisant l'API Exa.
+
+### Firecrawl Agent  
+Agent de scraping web intelligent avec Firecrawl.
+
+## 🛠️ Outils disponibles
+
+### Weather Tool
+Outil pour récupérer des données météorologiques.
+
+```typescript
+import { WeatherTool } from '@tsai/registry/tools';
+
+const tool = new WeatherTool({
+  apiKey: process.env.OPENWEATHER_API_KEY
+});
+```
+
+## 🔄 Workflows
+
+### Weather Workflow
+Workflow complet pour le traitement des données météorologiques.
+
+```typescript
+import { WeatherWorkflow } from '@tsai/registry/workflows';
+
+const workflow = new WeatherWorkflow();
+await workflow.execute({ location: "Paris" });
+```
+
+## 🏗️ Architecture
+
+Le projet est organisé en plusieurs modules :
+
+- **`/agents`** - Agents Mastra pré-configurés
+- **`/tools`** - Outils réutilisables  
+- **`/workflows`** - Workflows complets
+- **`/registry`** - Configurations et métadonnées
+
+## 🤝 Contribution
+
+Nous encourageons les contributions ! Voici comment participer :
+
+1. **Fork** le projet
+2. **Créez** une branche pour votre fonctionnalité
+3. **Commitez** vos changements
+4. **Poussez** vers la branche
+5. **Ouvrez** une Pull Request
+
+### Ajouter un nouvel agent
+
+```bash
+# Créer la structure
+mkdir -p src/mastra/registry/agents/mon-agent
+cd src/mastra/registry/agents/mon-agent
+
+# Fichiers requis
+touch index.ts
+touch README.md
+touch schema.json
+```
+
+## 📚 Ressources
+
+- [Documentation Mastra](https://mastra.ai/docs)
+- [API Reference](https://docs.tsai-registry.dev/api)
+- [Exemples](https://github.com/tsai-registry/examples)
+- [Discord Community](https://discord.gg/mastra)
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](../LICENSE) pour plus de détails.
+
+---
+
+**Fait avec ❤️ par la communauté Mastra**
