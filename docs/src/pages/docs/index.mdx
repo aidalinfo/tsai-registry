@@ -1,138 +1,109 @@
 ---
 layout: '@/layouts/docs-mdx.astro'
 title: "Introduction"
-description: "Guide complet pour utiliser tsai-registry - Collection d'agents et d'outils Mastra"
+description: "Complete guide to using tsai-registry - Collection of Mastra agents and tools"
 ---
 
-# Documentation tsai-registry
+# tsai-registry
 
-Bienvenue dans la documentation de **tsai-registry**, votre collection open source d'agents et d'outils Mastra.
+Welcome to **tsai-registry**, an open-source library of pre-built agents, tools, and workflows for Mastra framework.
 
-## 🚀 Démarrage rapide
+## 🎯 What is tsai-registry?
 
-tsai-registry est un registre d'agents et d'outils pré-construits pour Mastra, conçu pour accélérer le développement de vos applications IA.
+tsai-registry is a comprehensive collection of ready-to-use Mastra components designed to accelerate AI application development. It serves as a centralized repository where developers can discover, use, and contribute high-quality agents and tools.
 
-### Installation
+## 🚀 Why was it created?
+
+The AI development ecosystem often suffers from fragmentation and repetitive work. Developers frequently rebuild the same agents and tools across different projects. tsai-registry was created to:
+
+- **Eliminate duplication** - Provide battle-tested components instead of starting from scratch
+- **Accelerate development** - Get productive immediately with pre-configured agents
+- **Foster collaboration** - Enable the community to share and improve components together
+- **Ensure quality** - Maintain consistent standards across all components
+
+## 🛠️ Core Capabilities
+
+### Agent Library
+Access a growing collection of specialized agents:
+- **Weather Agent** - Real-time weather data and forecasts
+- **Exa Agent** - Advanced web search capabilities
+- **Firecrawl Agent** - Intelligent web scraping
+- **And many more...**
+
+### Tool Collection
+Reusable tools for common tasks:
+- API integrations
+- Data processing utilities
+- Communication tools
+- File manipulation helpers
+
+### Workflow Templates
+Complete workflows for complex scenarios:
+- Multi-step data processing
+- Agent orchestration patterns
+- Integration workflows
+
+## 🔧 How it works
+
+### 1. Browse & Discover
+Explore the registry to find components that match your needs:
 
 ```bash
-npm install @tsai/registry
-# ou
-pnpm add @tsai/registry
-# ou  
-yarn add @tsai/registry
+# List all available components
+npx tsai-registry list
+
+# List specific component types
+npx tsai-registry list agents
+npx tsai-registry list tools
+npx tsai-registry list workflows
 ```
 
-### Utilisation de base
+### 2. Download Locally
+Pull the source files directly into your project:
 
-```typescript
-import { WeatherAgent } from '@tsai/registry/agents';
-import { WeatherTool } from '@tsai/registry/tools';
+```bash
+# Add a specific agent to your project
+npx tsai-registry add weather-agent
 
-// Utiliser un agent
-const weatherAgent = new WeatherAgent({
-  apiKey: process.env.WEATHER_API_KEY
-});
-
-const response = await weatherAgent.run({
-  input: "Quel temps fait-il à Paris ?"
-});
-
-// Utiliser un outil
-const weatherTool = new WeatherTool({
-  apiKey: process.env.WEATHER_API_KEY
-});
-
-const weather = await weatherTool.execute({
-  city: "Paris",
-  country: "FR"
-});
+# Add other components
+npx tsai-registry add exa-agent
+npx tsai-registry add firecrawl-agent
 ```
 
-## 📦 Agents disponibles
+### 3. Customize & Extend
+All components come with full source code, allowing you to:
+- Modify behavior to fit your specific requirements
+- Add new features and capabilities
+- Integrate with your existing systems
+- Maintain full control over your implementation
 
-### Weather Agent
-Agent météorologique intelligent qui peut fournir des informations météorologiques détaillées.
+### 4. Share & Contribute
+Built something useful? Share it back with the community by contributing to the repository.
 
-**Fonctionnalités :**
-- Prévisions météo en temps réel
-- Données historiques
-- Alertes météo
-- Support multi-langues
+## 🌟 Key Benefits
 
-### Exa Agent
-Agent de recherche web avancé utilisant l'API Exa.
-
-### Firecrawl Agent  
-Agent de scraping web intelligent avec Firecrawl.
-
-## 🛠️ Outils disponibles
-
-### Weather Tool
-Outil pour récupérer des données météorologiques.
-
-```typescript
-import { WeatherTool } from '@tsai/registry/tools';
-
-const tool = new WeatherTool({
-  apiKey: process.env.OPENWEATHER_API_KEY
-});
-```
-
-## 🔄 Workflows
-
-### Weather Workflow
-Workflow complet pour le traitement des données météorologiques.
-
-```typescript
-import { WeatherWorkflow } from '@tsai/registry/workflows';
-
-const workflow = new WeatherWorkflow();
-await workflow.execute({ location: "Paris" });
-```
+- **Local Control** - All files are downloaded locally, giving you complete ownership
+- **Full Customization** - Modify any aspect of the components to match your needs
+- **Community Driven** - Benefit from collective knowledge and continuous improvements
+- **Production Ready** - Components are tested and used in real-world applications
+- **Easy Integration** - Seamlessly works with existing Mastra projects
 
 ## 🏗️ Architecture
 
-Le projet est organisé en plusieurs modules :
+The registry is organized into distinct categories:
 
-- **`/agents`** - Agents Mastra pré-configurés
-- **`/tools`** - Outils réutilisables  
-- **`/workflows`** - Workflows complets
-- **`/registry`** - Configurations et métadonnées
+- **`/agents`** - Autonomous AI agents for specific tasks
+- **`/tools`** - Reusable utility functions and integrations
+- **`/workflows`** - Complex multi-step processes
+- **`/templates`** - Project templates and boilerplates
 
-## 🤝 Contribution
-
-Nous encourageons les contributions ! Voici comment participer :
-
-1. **Fork** le projet
-2. **Créez** une branche pour votre fonctionnalité
-3. **Commitez** vos changements
-4. **Poussez** vers la branche
-5. **Ouvrez** une Pull Request
-
-### Ajouter un nouvel agent
-
-```bash
-# Créer la structure
-mkdir -p src/mastra/registry/agents/mon-agent
-cd src/mastra/registry/agents/mon-agent
-
-# Fichiers requis
-touch index.ts
-touch README.md
-touch schema.json
-```
-
-## 📚 Ressources
-
-- [Documentation Mastra](https://mastra.ai/docs)
-- [API Reference](https://docs.tsai-registry.dev/api)
-- [Exemples](https://github.com/tsai-registry/examples)
-- [Discord Community](https://discord.gg/mastra)
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](../LICENSE) pour plus de détails.
+Each component includes:
+- Complete source code
+- Configuration examples
+- Documentation
+- Type definitions
+- Automatic dependency installation
 
 ---
 
-**Fait avec ❤️ par la communauté Mastra**
+**Start building faster with tsai-registry - Your AI development accelerator**
