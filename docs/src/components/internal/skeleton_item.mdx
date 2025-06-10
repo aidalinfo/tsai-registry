@@ -1,0 +1,38 @@
+---
+name: AGENT_NAME_HERE
+# Description of the agent
+# Example: "A powerful web scraping agent using Firecrawl."
+description: AGENT_DESCRIPTION_HERE
+# Author GitHub username (optional)
+author: GITHUB_USERNAME
+# Tags for filtering/searching (optional)
+tags:
+  - agent
+  - web
+  - scraping
+# List of exports (const available for use)
+exports:
+  - export1
+  - export2
+---
+
+## Usage
+
+To add this agent to your project:
+
+```sh
+npx tsai-registry add AGENT_FOLDER_NAME
+```
+
+- Replace `AGENT_FOLDER_NAME` with the folder name containing this YAML (e.g. `firecrawl-agent`).
+
+## Exports
+
+The following exports are available for use in your code:
+
+```ts
+// Example usage
+import { export1, export2 } from './path/to/agent-folder';
+```
+
+- `export1`, `export2`: Replace with the actual exported const from the agent's code.

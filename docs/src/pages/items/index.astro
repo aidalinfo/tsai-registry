@@ -1,0 +1,21 @@
+---
+import DefaultLayout from "@/layouts/main.astro";
+import ItemsIndex from "@/components/internal/ItemsIndex.vue";
+import { getAllYamlItems, getYamlContent } from "@/lib/utils";
+
+const rawItems = getAllYamlItems();
+const items = rawItems.map(i => {
+  const yaml = getYamlContent(i.file) || {};
+  return {
+    name: yaml.name || i.name,
+    description: yaml.description || '',
+    tags: yaml.tags || [],
+    author: yaml.author || '',
+    link: `/items/${i.type}-${i.name}`,
+  };
+});
+---
+
+<DefaultLayout content={{ title: 'Items – tsai-registry' }}>
+  <ItemsIndex client:load items={items} />
+</DefaultLayout>

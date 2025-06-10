@@ -7,4 +7,6 @@ tags:
   - web
   - mcp
   - mastra
+exports: 
+  - exaAgent
 author: Aidalinfo

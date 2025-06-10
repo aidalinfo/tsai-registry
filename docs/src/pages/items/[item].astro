@@ -1,0 +1,44 @@
+---
+import DefaultLayout from "@/layouts/main.astro";
+import ItemHero from "@/components/internal/ItemHero.vue";
+import fs from 'fs';
+import path from 'path';
+import { getAllYamlItems, getYamlContent } from "@/lib/utils";
+
+export async function getStaticPaths() {
+  const items = getAllYamlItems();
+  return items.map(item => ({
+    params: { item: `${item.type}-${item.name}` }
+  }));
+}
+
+const { item } = Astro.params;
+const items = getAllYamlItems();
+const found = items.find(i => `${i.type}-${i.name}` === item);
+let yamlData = null;
+let relatedFiles: string[] = [];
+if (found) {
+  yamlData = getYamlContent(found.file);
+  const agentFolder = path.dirname(found.file);
+  relatedFiles = fs.readdirSync(agentFolder)
+    .filter(f => f !== 'index.ts')
+    .sort();
+}
+
+const itemProps = found && yamlData ? {
+  name: yamlData.name || found.name,
+  description: yamlData.description || '',
+  tags: yamlData.tags || [],
+  author: yamlData.author || '',
+  folder: found.name,
+  exports: yamlData.exports || [],
+} : null;
+---
+
+<DefaultLayout content={{ title: found ? `${found.type} / ${found.name}` : 'Item not found' }}>
+  {found && itemProps ? (
+    <ItemHero client:load item={itemProps} />
+  ) : (
+    <div class="mt-8 text-red-600">Item not found.</div>
+  )}
+</DefaultLayout>

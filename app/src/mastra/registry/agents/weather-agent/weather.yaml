@@ -6,4 +6,6 @@ tags:
   - weather
   - tool
   - mastra
-author: Mastra
+exports:
+  - weatherAgent
+author: mastra-ai
