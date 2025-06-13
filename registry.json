@@ -22,6 +22,7 @@
     "name": "exa-agent",
     "files": [
       "app/src/mastra/registry/agents/exa-agent/web-agent.ts",
+      "app/src/mastra/registry/agents/exa-agent/exa.yaml",
       "app/src/mastra/registry/agents/exa-agent/index.ts"
     ],
     "dependencies": [
@@ -33,6 +34,27 @@
     ],
     "envs": [
       "EXA_API_KEY"
+    ]
+  },
+  "google-search-agent": {
+    "type": "agents",
+    "name": "google-search-agent",
+    "files": [
+      "app/src/mastra/registry/agents/google-search-agent/google-search-agent.ts",
+      "app/src/mastra/registry/agents/google-search-agent/index.ts"
+    ],
+    "dependencies": [
+      "dotenv",
+      "@mastra/core",
+      "@mastra/memory",
+      "@ai-sdk/google",
+      "zod",
+      "axios",
+      "@mastra/libsql"
+    ],
+    "envs": [
+      "GOOGLE_API_KEY",
+      "GOOGLE_CX"
     ]
   },
   "weather-agent": {

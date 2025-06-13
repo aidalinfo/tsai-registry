@@ -1,0 +1,12 @@
+name: Google Search Agent
+description: |
+  A google search agent that uses the Google Places API to search for places based on a query.
+tags:
+  - gemini
+  - agent
+  - google places
+  - tool
+  - mastra
+exports: 
+  - googleSearchAgent
+author: Aidalinfo
