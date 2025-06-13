@@ -22,21 +22,33 @@ import { getNavigationItems } from '@/lib/docs-navigation'
 // Get navigation items from the separate file
 const navigationItems = getNavigationItems()
 
-// Track if component is mounted (client-side)
-const isMounted = ref(false)
+// Track current path but don't use it for conditional rendering during SSR
 const currentPath = ref('/')
 
 // Function to check if a route is active
 const isActiveRoute = (url?: string) => {
-  if (!url || !isMounted.value) {
+  if (!url) {
+    return false
+  }
+  // Toujours retourner false pendant l'hydratation pour éviter les mismatches
+  // L'état actif sera mis à jour après l'hydratation
+  if (typeof window === 'undefined') {
     return false
   }
   return currentPath.value === url
 }
 
 onMounted(() => {
-  isMounted.value = true
+  // Mettre à jour le path après le montage pour éviter les problèmes d'hydratation
   currentPath.value = window.location.pathname
+  
+  // Forcer la mise à jour de l'état actif après l'hydratation
+  // En utilisant nextTick pour s'assurer que tous les composants sont montés
+  import('vue').then(({ nextTick }) => {
+    nextTick(() => {
+      // Le composant va se re-render avec les bonnes valeurs
+    })
+  })
 })
 </script>
 

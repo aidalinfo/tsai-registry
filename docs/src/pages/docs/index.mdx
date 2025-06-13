@@ -1,6 +1,7 @@
 ---
 layout: '@/layouts/docs-mdx.astro'
 title: "Introduction"
+order: 1
 description: "Complete guide to using tsai-registry - Collection of Mastra agents and tools"
 ---
 
@@ -24,24 +25,32 @@ The AI development ecosystem often suffers from fragmentation and repetitive wor
 ## 🛠️ Core Capabilities
 
 ### Agent Library
-Access a growing collection of specialized agents:
+Access our growing collection of specialized agents:
 - **Weather Agent** - Real-time weather data and forecasts
 - **Exa Agent** - Advanced web search capabilities
 - **Firecrawl Agent** - Intelligent web scraping
-- **And many more...**
 
 ### Tool Collection
-Reusable tools for common tasks:
-- API integrations
-- Data processing utilities
-- Communication tools
-- File manipulation helpers
+*Coming soon* - Reusable tools for common tasks
 
 ### Workflow Templates
-Complete workflows for complex scenarios:
-- Multi-step data processing
-- Agent orchestration patterns
-- Integration workflows
+*Coming soon* - Complete workflows for complex scenarios
+
+## 🚧 Current Status
+
+**tsai-registry is currently in active development!**
+
+At this stage, we have 3 working agents available, but this is just the beginning. The goal of this project is to build a comprehensive library through community contributions. We believe that by sharing our agents and tools, we can create a valuable resource for the entire Mastra ecosystem.
+
+### What's Available Now:
+- ✅ 3 production-ready agents (Weather, Exa, Firecrawl)
+- ✅ CLI for easy component management
+- ✅ Full source code access
+
+### What's Coming:
+- 🔄 Tool collection
+- 🔄 Workflow templates
+- 🔄 More community-contributed agents
 
 ## 🔧 How it works
 
@@ -54,8 +63,6 @@ npx tsai-registry list
 
 # List specific component types
 npx tsai-registry list agents
-npx tsai-registry list tools
-npx tsai-registry list workflows
 ```
 
 ### 2. Download Locally
@@ -92,10 +99,9 @@ Built something useful? Share it back with the community by contributing to the 
 
 The registry is organized into distinct categories:
 
-- **`/agents`** - Autonomous AI agents for specific tasks
-- **`/tools`** - Reusable utility functions and integrations
-- **`/workflows`** - Complex multi-step processes
-- **`/templates`** - Project templates and boilerplates
+- **`/agents`** - Autonomous AI agents for specific tasks *(currently available)*
+- **`/tools`** - Reusable utility functions and integrations *(coming soon)*
+- **`/workflows`** - Complex multi-step processes *(coming soon)*
 
 Each component includes:
 - Complete source code
@@ -104,6 +110,16 @@ Each component includes:
 - Type definitions
 - Automatic dependency installation
 
+## 🐛 Found a Bug?
+
+If you encounter any issues while using tsai-registry, please don't hesitate to report them on our [GitHub repository](https://github.com/aidalinfo/tsai-registry/issues). Your feedback helps us improve the library for everyone!
+
+## 💡 Feature Requests
+
+Have an idea for a new agent, tool, or feature? We'd love to hear from you! Please submit your feature requests on our [GitHub issues page](https://github.com/aidalinfo/tsai-registry/issues) with the "feature request" label.
+
 ---
 
 **Start building faster with tsai-registry - Your AI development accelerator**
+
+*Join our community and help us build the definitive library of Mastra components!*

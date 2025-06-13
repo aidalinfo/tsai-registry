@@ -1,0 +1,190 @@
+---
+layout: '@/layouts/docs-mdx.astro'
+title: "Contribute"
+order: 3
+description: "Guide to contributing agents to the tsai-registry"
+---
+
+# Contributing to tsai-registry
+
+Want to contribute your own agent to the registry? This guide will walk you through the process of adding a new agent to the community library.
+
+## Prerequisites
+
+Before contributing, make sure you have:
+- A working Mastra agent that you want to share
+- Basic knowledge of TypeScript and Mastra framework
+- A GitHub account for submitting pull requests
+
+## How to Add an Agent
+
+### 1. Fork and Clone the Repository
+
+```bash
+# Fork the repository on GitHub, then clone your fork
+git clone https://github.com/aidalinfo/tsai-registry.git
+cd tsai-registry
+```
+
+### 2. Create Your Agent Structure
+
+Navigate to the `app/src/mastra/registry/agents/` directory and create a new folder for your agent:
+
+```bash
+mkdir app/src/mastra/registry/agents/your-agent-name
+cd app/src/mastra/registry/agents/your-agent-name
+```
+
+### 3. Implement Your Agent
+
+Create the required files for your agent. Here's the standard structure based on existing agents:
+
+#### Main Agent File (`your-agent.ts`)
+
+```typescript
+import { Agent } from "@mastra/core/agent";
+import { openai } from "@ai-sdk/openai";
+import { Memory } from '@mastra/memory';
+import { LibSQLStore } from '@mastra/libsql';
+
+// Initialize model
+const mainModel = openai("gpt-4o-mini");
+
+export const yourAgent = new Agent({
+  name: "Your Agent Name",
+  instructions: `
+    Detailed instructions for your agent.
+    Explain what the agent does, how it behaves, and any specific guidelines.
+  `,
+  memory: new Memory({
+    storage: new LibSQLStore({
+      url: 'file:../mastra.db',
+    }),
+  }),
+  model: mainModel,
+  tools: {
+    // Add your tools here
+  }
+});
+```
+
+#### Export File (`index.ts`)
+
+```typescript
+import { yourAgent } from './your-agent'
+
+export { yourAgent }
+```
+
+### 4. Example: Looking at Existing Agents
+
+Let's look at how the exa-agent is structured for reference:
+
+**File Structure:**
+```
+app/src/mastra/registry/agents/exa-agent/
+├── index.ts              # Export file
+└── web-agent.ts          # Main agent implementation
+```
+
+**Key Features of the exa-agent:**
+- Uses MCP (Model Context Protocol) for web search capabilities
+- Requires `EXA_API_KEY` environment variable
+- Specialized in web research with specific search strategies
+- Includes retry logic and result evaluation
+
+### 5. Test Your Agent
+
+Before submitting, test your agent locally:
+
+```bash
+cd app
+npm install
+# Test your agent implementation
+```
+
+### 6. Submit a Pull Request
+
+1. **Commit your changes:**
+```bash
+git add .
+git commit -m "feat: add your-agent-name"
+git push origin main
+```
+
+2. **Create a Pull Request** on GitHub with:
+   - Clear title describing your agent
+   - Description of what the agent does
+   - Any special setup requirements
+   - Screenshots or examples if applicable
+
+### 7. Registry Build Process
+
+Once your PR is approved and merged:
+1. The maintainers will update the registry configuration using the CLI
+2. Your agent will be built and added to the CLI registry
+3. Users can then install it with `npx tsai-registry add your-agent-name`
+
+## Best Practices
+
+### Agent Design
+- **Clear Purpose**: Make sure your agent has a specific, well-defined role
+- **Good Instructions**: Write detailed instructions that guide the agent's behavior
+- **Error Handling**: Include proper error handling and fallback strategies
+- **Memory Usage**: Use memory appropriately for context retention
+
+### Code Quality
+- **TypeScript**: Use proper TypeScript types and interfaces
+- **Dependencies**: Only include necessary dependencies
+- **Environment Variables**: Clearly document any required API keys or configuration
+- **Comments**: Add helpful comments to explain complex logic
+
+### Documentation
+- **README**: Consider adding a README.md in your agent folder
+- **Examples**: Provide usage examples in your PR description
+- **API Keys**: Document how to obtain necessary API keys
+
+## Agent Ideas
+
+Looking for inspiration? Here are some agent ideas the community would love to see:
+
+- **Email Agent**: Automated email management and responses
+- **Social Media Agent**: Content creation and scheduling
+- **Code Review Agent**: Automated code analysis and suggestions
+- **Data Analysis Agent**: CSV/JSON data processing and insights
+- **Translation Agent**: Multi-language translation and localization
+- **Image Generation Agent**: AI-powered image creation
+- **Calendar Agent**: Meeting scheduling and calendar management
+
+## Getting Help
+
+Need help with your contribution? Here are some resources:
+
+- **GitHub Issues**: Ask questions in the repository issues
+- **Mastra Documentation**: Check the official Mastra docs
+- **Community**: Join discussions in the project's community channels
+- **Examples**: Study existing agents in the `app/src/mastra/registry/agents/` directory
+
+## Contribution Guidelines
+
+### Code Standards
+- Follow existing code patterns and naming conventions
+- Use consistent indentation and formatting
+- Include proper error handling
+- Write clear, descriptive variable and function names
+
+### Commit Messages
+Use conventional commit format:
+- `feat: add new agent for X functionality`
+- `fix: resolve issue with Y agent`
+- `docs: update agent documentation`
+
+### Pull Request Process
+1. Ensure your code follows the project standards
+2. Test your agent thoroughly
+3. Update documentation if needed
+4. Respond to review feedback promptly
+
+---
+
+**Ready to contribute?** Start by exploring the existing agents in the repository and then create your own following this guide. The community is excited to see what you'll build!

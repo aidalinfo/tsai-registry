@@ -1,82 +1,133 @@
 ---
 layout: '@/layouts/docs-mdx.astro'
 title: "Installation"
-description: "Guide d'installation de tsai-registry"
+order: 2
+description: "Installation guide for tsai-registry"
 ---
 
 # Installation
 
-Cette page explique comment installer et configurer tsai-registry dans votre projet.
+This page explains how to install and configure tsai-registry in your project.
 
-## Prérequis
+## Prerequisites
 
-Avant d'installer tsai-registry, assurez-vous d'avoir :
+Before installing tsai-registry, make sure you have:
 
-- Node.js 18+ installé
-- Un gestionnaire de paquets (npm, pnpm, ou yarn)
-- Un projet Mastra existant
+- Node.js 18+ installed
+- A package manager (npm, pnpm, or yarn)
+- An existing Mastra project
 
-## Installation via npm
+## Installation with CLI
+
+The easiest way to get started is using the tsai-registry CLI tool. **Make sure you are in the root directory of your project** before running these commands.
+
+### List available components
 
 ```bash
-npm install @tsai/registry
+# List all available components
+npx tsai-registry list
+
+# List specific component types
+npx tsai-registry list agents
 ```
 
-## Installation via pnpm
+### Add components to your project
 
 ```bash
-pnpm add @tsai/registry
+# Add a specific agent to your project
+npx tsai-registry add weather-agent
+
+# Add multiple agents
+npx tsai-registry add exa-agent
+npx tsai-registry add firecrawl-agent
 ```
 
-## Installation via yarn
+By default, configuration files will be downloaded to `./src/mastra/registry/` in your project.
+
+When you add an agent that requires API keys, the CLI will automatically show you which environment variables to add:
 
 ```bash
-yarn add @tsai/registry
+$ npx tsai-registry add firecrawl-agent
+Downloaded file: /home/your-project/src/mastra/registry/agents/firecrawl-agent/web-agent.ts
+Downloaded file: /home/your-project/src/mastra/registry/agents/firecrawl-agent/index.ts
+Installing dependencies: @mastra/core, @ai-sdk/openai, @mastra/memory, @mastra/libsql, @mastra/mcp
+
+Environment variables to add to your .env:
+FIRECRAWL_API_KEY=
+'firecrawl-agent' added successfully.
 ```
 
 ## Configuration
 
-Après l'installation, configurez votre projet :
+After adding components, you need to configure them in your Mastra instance. Here's a complete example based on our test project:
 
-```typescript
-// mastra.config.ts
-import { Mastra } from '@mastra/core'
-import { WeatherAgent } from '@tsai/registry/agents'
+### 1. Environment Variables
 
-export const mastra = new Mastra({
-  agents: [
-    new WeatherAgent({
-      apiKey: process.env.WEATHER_API_KEY
-    })
-  ]
-})
-```
-
-## Variables d'environnement
-
-Créez un fichier `.env` avec les clés API nécessaires :
+Create a `.env` file with the API keys shown by the CLI during installation:
 
 ```env
-# Météo
-WEATHER_API_KEY=your_openweather_api_key
-
-# Recherche web
+# Web Search (if using exa-agent)
 EXA_API_KEY=your_exa_api_key
 
-# Web scraping
+# Web Scraping (if using firecrawl-agent)
 FIRECRAWL_API_KEY=your_firecrawl_api_key
 ```
 
-## Vérification
+Note: The weather agent doesn't require any API keys.
 
-Pour vérifier que l'installation fonctionne :
+### 2. Mastra Configuration
+
+Configure your Mastra instance to use the downloaded agents:
 
 ```typescript
-import { WeatherTool } from '@tsai/registry/tools'
+// src/mastra/index.ts
+import { Mastra } from "@mastra/core";
+import { weatherAgent } from "./registry/agents/weather-agent";
 
-const tool = new WeatherTool({
-  apiKey: process.env.WEATHER_API_KEY
-})
-
-console.log('tsai-registry installé avec succès !')
+export const mastra = new Mastra({
+  agents: { weatherAgent },
+});
 ```
+
+### 3. Agent Structure
+
+Each agent comes with its complete configuration. For example, the weather agent includes:
+
+```
+src/mastra/registry/agents/weather-agent/
+├── index.ts              # Export file
+├── weather-agent.ts      # Main agent configuration
+└── weather-tool.ts       # Associated tool
+```
+
+The weather agent is pre-configured with:
+- OpenAI GPT-4o-mini model
+- Weather tool for fetching data
+- Memory storage with LibSQL
+- Detailed instructions for weather assistance
+
+## Directory Structure
+
+After installation, your project structure will look like this:
+
+```
+your-project/
+├── .env
+├── src/
+│   └── mastra/
+│       ├── index.ts
+│       └── registry/
+│           └── agents/
+│               ├── weather-agent/
+│               ├── exa-agent/
+│               └── firecrawl-agent/
+└── ...
+```
+
+## Next Steps
+
+Once installed, you can:
+1. Customize the agents to fit your specific needs
+2. Add additional tools or modify existing ones
+3. Integrate the agents into your application workflows
+4. Contribute back to the community by sharing your improvements

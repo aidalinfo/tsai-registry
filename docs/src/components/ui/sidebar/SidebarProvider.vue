@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useEventListener, useMediaQuery, useVModel } from '@vueuse/core'
+import { useEventListener, useVModel } from '@vueuse/core'
 import { TooltipProvider } from 'reka-ui'
-import { computed, type HTMLAttributes, type Ref, ref } from 'vue'
+import { computed, type HTMLAttributes, type Ref, ref, onMounted } from 'vue'
 import { cn } from '@/lib/utils'
 import { provideSidebarContext, SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME, SIDEBAR_KEYBOARD_SHORTCUT, SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON } from './utils'
 
@@ -18,8 +18,23 @@ const emits = defineEmits<{
   'update:open': [open: boolean]
 }>()
 
-const isMobile = useMediaQuery('(max-width: 768px)')
+// Initialiser isMobile à false pour éviter les problèmes d'hydratation
+const isMobile = ref(false)
 const openMobile = ref(false)
+
+// Détecter si on est sur mobile après le montage
+onMounted(() => {
+  const checkMobile = () => {
+    isMobile.value = window.innerWidth <= 768
+  }
+  
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+  
+  return () => {
+    window.removeEventListener('resize', checkMobile)
+  }
+})
 
 const open = useVModel(props, 'open', emits, {
   defaultValue: props.defaultOpen ?? false,
@@ -27,10 +42,12 @@ const open = useVModel(props, 'open', emits, {
 }) as Ref<boolean>
 
 function setOpen(value: boolean) {
-  open.value = value // emits('update:open', value)
+  open.value = value
 
-  // This sets the cookie to keep the sidebar state.
-  document.cookie = `${SIDEBAR_COOKIE_NAME}=${open.value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+  // Vérifier si on est côté client avant d'accéder à document
+  if (typeof document !== 'undefined') {
+    document.cookie = `${SIDEBAR_COOKIE_NAME}=${open.value}; path=/; max-age=${SIDEBAR_COOKIE_MAX_AGE}`
+  }
 }
 
 function setOpenMobile(value: boolean) {
@@ -42,11 +59,14 @@ function toggleSidebar() {
   return isMobile.value ? setOpenMobile(!openMobile.value) : setOpen(!open.value)
 }
 
-useEventListener('keydown', (event: KeyboardEvent) => {
-  if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-    event.preventDefault()
-    toggleSidebar()
-  }
+// Seulement côté client
+onMounted(() => {
+  useEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
+      event.preventDefault()
+      toggleSidebar()
+    }
+  })
 })
 
 // We add a state so that we can do data-state="expanded" or "collapsed".
