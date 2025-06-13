@@ -16,7 +16,7 @@ export default defineConfig({
   vite: {
       plugins: [tailwindcss()]
 	},
-
+  site: 'https://tsai-registry.dev',
   integrations: [
     vue(), 
     mdx({
