@@ -8,8 +8,11 @@ import { write } from 'bun';
   const settings = await loadSettings();
   const ignoreExtensions: string[] = settings.build?.ignoreExtensions || [];
 
-  // Racine du dossier registry
-  const REGISTRY_ROOT = path.join(process.cwd(), 'app', 'src', 'mastra', 'registry');
+  // Racine du dossier registry (argument CLI ou valeur par défaut)
+  const registryArg = process.argv[2] || 'app/src/mastra/registry';
+  const REGISTRY_ROOT = path.isAbsolute(registryArg)
+    ? registryArg
+    : path.join(process.cwd(), registryArg);
   const OUTPUT_PATH = path.join(process.cwd(), 'registry.json');
 
   // Types supportés
