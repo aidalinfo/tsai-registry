@@ -39,6 +39,7 @@ The AI ecosystem is moving fast, and many Python frameworks (LangChain, CrewAI, 
   ```sh
   npx tsai-registry settings
   ```
+  You can also set the `TSAR_SETTINGS_URL` environment variable to load a custom `settings.json` from another location.
 
 > The default registry is this open source repository. The whole community can contribute and share their agents!
 
@@ -121,6 +122,7 @@ L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (Lan
   ```sh
   npx tsai-registry settings
   ```
+  Vous pouvez également définir la variable d'environnement `TSAR_SETTINGS_URL` pour charger un `settings.json` personnalisé depuis un autre emplacement.
 
 > Le registry par défaut est ce dépôt open source. Toute la communauté peut y contribuer pour partager ses agents !
 
