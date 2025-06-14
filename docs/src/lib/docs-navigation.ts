@@ -12,6 +12,7 @@ export interface NavigationItem {
 interface PageFrontmatter {
   title?: string
   description?: string
+  navbar_title?: string
   order?: number
   [key: string]: any
 }
@@ -76,8 +77,12 @@ export const getNavigationItems = (): NavigationItem[] => {
         if (value.__file) {
           // Si c'est la racine de /docs ou un index, on affiche "Introduction"
           const isRootIndex = value.path === '/docs' || value.path === '/docs/index';
+          const navTitle = value.frontmatter.navbar_title ||
+            (isRootIndex
+              ? 'Introduction'
+              : formatTitle(key === 'index' ? (parentPath.split('/').pop() || 'Index') : key));
           return {
-            title: isRootIndex ? 'Introduction' : formatTitle(key === 'index' ? (parentPath.split('/').pop() || 'Index') : key),
+            title: navTitle,
             url: value.path === '/docs/index' ? '/docs' : value.path,
             icon: getIcon(key),
             order: value.frontmatter.order ?? 9999,
