@@ -220,8 +220,12 @@ yargs(hideBin(process.argv))
     async (argv) => {
       try {
         const { spawn } = require('child_process');
-        const buildScript = path.join(__dirname, 'build.ts');
-        const proc = spawn('bun', [buildScript], { stdio: 'inherit', env: process.env });
+        const buildScript = path.join(__dirname, 'build.js');
+        const registryArg = argv.registryPath as string;
+        const proc = spawn('bun', [buildScript, registryArg], {
+          stdio: 'inherit',
+          env: process.env,
+        });
         proc.on('close', (code: number) => process.exit(code));
       } catch (e: any) {
         console.error('Erreur lors de la génération du registry:', e.message);
