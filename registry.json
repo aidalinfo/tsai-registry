@@ -73,5 +73,22 @@
       "zod"
     ],
     "envs": []
+  },
+  "translate-agent": {
+    "type": "agents",
+    "name": "translate-agent",
+    "files": [
+      "app/src/mastra/registry/agents/translate-agent/translate-agent.ts",
+      "app/src/mastra/registry/agents/translate-agent/index.ts",
+      "app/src/mastra/registry/agents/translate-agent/translate.yaml"
+    ],
+    "dependencies": [
+      "dotenv",
+      "@mastra/core",
+      "@mastra/memory",
+      "@mastra/libsql",
+      "@ai-sdk/google"
+    ],
+    "envs": []
   }
 }
