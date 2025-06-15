@@ -1,0 +1,89 @@
+---
+layout: '@/layouts/docs-mdx.astro'
+title: "CLI"
+navbar_title: "CLI"
+order: 4
+description: "How to use the tsai-registry CLI"
+---
+
+# tsai-registry CLI
+
+This page describes the available commands of the `tsai-registry` CLI and how they rely on the `settings.json` file.
+
+## General usage
+
+Run commands with `npx`:
+
+```bash
+npx tsai-registry <command>
+```
+
+## Available commands
+
+### `settings`
+
+Display the configuration used by the CLI:
+
+```bash
+npx tsai-registry settings
+```
+
+The configuration is loaded with the `loadSettings` function from `cli/utils.ts`.
+
+### `list [type]`
+
+List objects from the registry. The optional `type` can be `agents`, `workflows`, `tools` or `mcp`.
+
+```bash
+npx tsai-registry list agents
+```
+
+The CLI reads the registry path from `settings.json`, loads `registry.json` and displays the matching entries.
+
+### `add <name>`
+
+Copy an agent, workflow or tool from the registry locally. The command downloads the files listed in `registry.json`, installs the required dependencies and prints environment variables to add.
+
+```bash
+npx tsai-registry add weather-agent
+```
+
+The destination folder is defined by `settings.local` in `settings.json`. If the folder already exists, the CLI asks whether to overwrite it.
+
+### `build [registryPath]`
+
+Generate a `registry.json` file from a local folder containing your agents. The default path is `app/src/mastra/registry`, but you can provide a custom one:
+
+```bash
+npx tsai-registry build ./my-agents
+```
+
+The command iterates through the `agents`, `workflows` and `tools` subfolders and gathers the files needed for each entry. It ignores extensions listed in `build.ignoreExtensions` from `settings.json`.
+
+## `settings.json`
+
+The `settings.json` file centralises the CLI configuration. Example:
+
+```json
+{
+  "settings": {
+    "url": "https://github.com/aidalinfo/tsai-registry",
+    "registry": "registry.json",
+    "local": "src/mastra/registry"
+  },
+  "build": {
+    "ignoreExtensions": [
+      ".md",
+      ".yaml"
+    ]
+  }
+}
+```
+
+- **settings.url**: URL of the default registry repository.
+- **settings.registry**: path to the `registry.json` file to load.
+- **settings.local**: folder where objects added with the `add` command are copied.
+- **build.ignoreExtensions**: file extensions ignored when generating the registry with `build`.
+
+You can set the `TSAR_SETTINGS_URL` environment variable to override the official settings URL. This lets you point the CLI to a different registry repository. If no flag or variable is provided, the CLI falls back to the default URL declared in `cli/utils.ts`.
+

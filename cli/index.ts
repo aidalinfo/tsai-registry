@@ -10,16 +10,10 @@ yargs(hideBin(process.argv))
   .command(
     'settings',
     'Affiche les paramètres de configuration',
-    (yargs) => {
-      return yargs.option('settings-path', {
-        alias: 's',
-        describe: 'Chemin local ou URL du fichier settings.json',
-        type: 'string',
-      });
-    },
-    async (argv) => {
+    () => {},
+    async () => {
       try {
-        const settings = await loadSettings(argv["settings-path"] as string | undefined);
+        const settings = await loadSettings();
         console.log(JSON.stringify(settings, null, 2));
       } catch (e: any) {
         console.error("Erreur lors du chargement des settings:", e.message);
@@ -35,15 +29,11 @@ yargs(hideBin(process.argv))
         describe: 'Type d\'objet à lister',
         choices: ['agents', 'workflows', 'tools', 'mcp'],
         type: 'string',
-      }).option('settings-path', {
-        alias: 's',
-        describe: 'Chemin local ou URL du fichier settings.json',
-        type: 'string',
       });
     },
     async (argv) => {
       try {
-        const settings = await loadSettings(argv["settings-path"] as string | undefined);
+        const settings = await loadSettings();
         const registryPath = settings.settings?.registry;
         const settingsUrl = settings.settings?.url;
         if (!registryPath) throw new Error("Le chemin du registry n'est pas défini dans les settings.");
@@ -73,16 +63,12 @@ yargs(hideBin(process.argv))
       return yargs.positional('name', {
         describe: "Name of the object to add (e.g., research-agent)",
         type: 'string',
-      }).option('settings-path', {
-        alias: 's',
-        describe: 'Local path or URL to the settings.json file',
-        type: 'string',
       });
     },
     async (argv) => {
       try {
         const name = argv.name as string;
-        const settings = await loadSettings(argv["settings-path"] as string | undefined);
+        const settings = await loadSettings();
         const registryPath = settings.settings?.registry;
         const settingsUrl = settings.settings?.url;
         const localPath = settings.settings?.local;
