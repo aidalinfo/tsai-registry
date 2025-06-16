@@ -20,6 +20,17 @@ npx tsai-registry <command>
 
 ## Available commands
 
+### `init`
+
+Create a local `settings-registry.json` file. This file overrides
+`settings.local` from `settings.json` and indicates where downloaded components
+should be stored. The command asks for the local registry path (default
+`src/mastra/registry`) and, if the file already exists, whether to overwrite it.
+
+```bash
+npx tsai-registry init
+```
+
 ### `settings`
 
 Display the configuration used by the CLI:
