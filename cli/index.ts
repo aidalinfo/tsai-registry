@@ -72,6 +72,26 @@ async function handleEnvVariables(envs: string[] | undefined) {
 
 yargs(hideBin(process.argv))
   .command(
+    'init',
+    'Create a local settings-registry.json file',
+    () => {},
+    async () => {
+      const defaultPath = 'src/mastra/registry';
+      const input = await prompt(`Local registry path [${defaultPath}]: `);
+      const localPath = input.trim() || defaultPath;
+      const filePath = path.join(process.cwd(), 'settings-registry.json');
+      if (fs.existsSync(filePath)) {
+        const overwrite = (await prompt('settings-registry.json already exists. Overwrite? (y/N): ')).trim().toLowerCase();
+        if (overwrite !== 'y') {
+          console.log('Aborted.');
+          return;
+        }
+      }
+      fs.writeFileSync(filePath, JSON.stringify({ settings: { local: localPath } }, null, 2));
+      console.log(`settings-registry.json written to ${filePath}`);
+    }
+  )
+  .command(
     'settings',
     'Affiche les paramètres de configuration',
     () => {},
