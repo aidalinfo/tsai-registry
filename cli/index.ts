@@ -206,7 +206,10 @@ yargs(hideBin(process.argv))
     async (argv) => {
       try {
         const { spawn } = require('child_process');
-        const buildScript = path.join(__dirname, 'build.js');
+        // Déterminer le chemin du script build selon le contexte d'exécution
+        const currentDir = path.dirname(import.meta.url.replace('file://', ''));
+        const isTypeScript = import.meta.url.endsWith('.ts');
+        const buildScript = path.join(currentDir, isTypeScript ? 'build.ts' : 'build.js');
         const registryArg = argv.registryPath as string;
         const proc = spawn('bun', [buildScript, registryArg], {
           stdio: 'inherit',
