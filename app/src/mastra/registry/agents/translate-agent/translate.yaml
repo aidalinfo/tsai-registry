@@ -1,0 +1,10 @@
+name: Translation Assistant
+description: |
+  Translation Agent for correcting and translating text
+tags:
+  - agent
+  - translation
+  - mastra
+exports:
+  - translationAgent
+author: mastra-ai
