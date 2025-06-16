@@ -4,7 +4,71 @@ import yargs from "yargs";
 import { hideBin } from "yargs/helpers";
 import fs from "fs";
 import path from "path";
+import readline from "readline";
 import { loadSettings, loadRegistry } from "./utils";
+
+async function prompt(question: string): Promise<string> {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  return await new Promise((resolve) => rl.question(question, (ans) => { rl.close(); resolve(ans); }));
+}
+
+async function handleEnvVariables(envs: string[] | undefined) {
+  if (!envs || envs.length === 0) return;
+  const envFiles = fs
+    .readdirSync(process.cwd())
+    .filter((f) => f.startsWith('.env'));
+  if (envFiles.length === 0) {
+    fs.writeFileSync(path.join(process.cwd(), '.env'), '');
+    envFiles.push('.env');
+  }
+
+  for (const env of envs) {
+    const existingFiles: string[] = [];
+    for (const file of ['.env.development', '.env']) {
+      const fp = path.join(process.cwd(), file);
+      if (fs.existsSync(fp)) {
+        const content = fs.readFileSync(fp, 'utf-8');
+        if (new RegExp(`^${env}=`, 'm').test(content)) {
+          existingFiles.push(file);
+        }
+      }
+    }
+
+    if (existingFiles.length === 0) {
+      console.log(
+        `The environment variable '${env}' is used but not found in .env.development or .env.`
+      );
+      const add = (await prompt('Add it? (y/N): ')).trim().toLowerCase();
+      if (add !== 'y') continue;
+    } else {
+      console.log(
+        `The environment variable '${env}' already exists in: ${existingFiles.join(', ')}`
+      );
+      const update = (await prompt('Update its value? (y/N): ')).trim().toLowerCase();
+      if (update !== 'y') continue;
+    }
+
+    console.log('Select the .env file to update:');
+    envFiles.forEach((f, idx) => console.log(`${idx + 1}. ${f}`));
+    const idxInput = await prompt(`Choice [1-${envFiles.length}]: `);
+    const idx = parseInt(idxInput, 10);
+    const target =
+      !isNaN(idx) && idx >= 1 && idx <= envFiles.length ? envFiles[idx - 1] : envFiles[0];
+
+    const value = await prompt(`Value for ${env}: `);
+    const filePath = path.join(process.cwd(), target);
+    let content = fs.existsSync(filePath) ? fs.readFileSync(filePath, 'utf-8') : '';
+    const line = `${env}=${value}`;
+    if (new RegExp(`^${env}=`, 'm').test(content)) {
+      content = content.replace(new RegExp(`^${env}=.*`, 'm'), line);
+    } else {
+      if (content && !content.endsWith('\n')) content += '\n';
+      content += line + '\n';
+    }
+    fs.writeFileSync(filePath, content, 'utf-8');
+    console.log(`${env} set in ${target}`);
+  }
+}
 
 yargs(hideBin(process.argv))
   .command(
@@ -82,7 +146,6 @@ yargs(hideBin(process.argv))
         // Target directory creation
         const targetDir = path.join(process.cwd(), localPath, entry.type, name);
         if (fs.existsSync(targetDir)) {
-          const readline = require('readline');
           const rl = readline.createInterface({
             input: process.stdin,
             output: process.stdout
@@ -131,13 +194,7 @@ yargs(hideBin(process.argv))
                 const { execSync } = require('child_process');
                 execSync(installCmd, { stdio: 'inherit' });
               }
-              // Show environment variables
-              if (entry.envs && entry.envs.length > 0) {
-                console.log('\nEnvironment variables to add to your .env:');
-                for (const env of entry.envs) {
-                  console.log(`${env}=`);
-                }
-              }
+              await handleEnvVariables(entry.envs);
               console.log(`'${name}' added successfully.`);
             })().catch((e: any) => {
               console.error("Error while adding:", e.message);
@@ -179,13 +236,7 @@ yargs(hideBin(process.argv))
           const { execSync } = require('child_process');
           execSync(installCmd, { stdio: 'inherit' });
         }
-        // Show environment variables
-        if (entry.envs && entry.envs.length > 0) {
-          console.log('\nEnvironment variables to add to your .env:');
-          for (const env of entry.envs) {
-            console.log(`${env}=`);
-          }
-        }
+        await handleEnvVariables(entry.envs);
         console.log(`'${name}' added successfully.`);
       } catch (e: any) {
         console.error("Error while adding:", e.message);
