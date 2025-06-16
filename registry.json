@@ -4,8 +4,8 @@
     "name": "weather-agent",
     "files": [
       "app/src/mastra/registry/agents/weather-agent/weather-agent.ts",
-      "app/src/mastra/registry/agents/weather-agent/weather-tool.ts",
-      "app/src/mastra/registry/agents/weather-agent/index.ts"
+      "app/src/mastra/registry/agents/weather-agent/index.ts",
+      "app/src/mastra/registry/agents/weather-agent/weather-tool.ts"
     ],
     "dependencies": [
       "@ai-sdk/openai",
@@ -14,7 +14,52 @@
       "@mastra/libsql",
       "zod"
     ],
-    "envs": []
+    "envs": [],
+    "aiprovider": [
+      "openai"
+    ]
+  },
+  "firecrawl-agent": {
+    "type": "agents",
+    "name": "firecrawl-agent",
+    "files": [
+      "app/src/mastra/registry/agents/firecrawl-agent/index.ts",
+      "app/src/mastra/registry/agents/firecrawl-agent/web-agent.ts"
+    ],
+    "dependencies": [
+      "@mastra/core",
+      "@ai-sdk/openai",
+      "@mastra/memory",
+      "@mastra/libsql",
+      "@mastra/mcp"
+    ],
+    "envs": [
+      "FIRECRAWL_API_KEY"
+    ],
+    "aiprovider": [
+      "openai"
+    ]
+  },
+  "exa-agent": {
+    "type": "agents",
+    "name": "exa-agent",
+    "files": [
+      "app/src/mastra/registry/agents/exa-agent/index.ts",
+      "app/src/mastra/registry/agents/exa-agent/web-agent.ts"
+    ],
+    "dependencies": [
+      "@mastra/core",
+      "@ai-sdk/openai",
+      "@mastra/memory",
+      "@mastra/libsql",
+      "@mastra/mcp"
+    ],
+    "envs": [
+      "EXA_API_KEY"
+    ],
+    "aiprovider": [
+      "openai"
+    ]
   },
   "google-search-agent": {
     "type": "agents",
@@ -35,42 +80,9 @@
     "envs": [
       "GOOGLE_API_KEY",
       "GOOGLE_CX"
-    ]
-  },
-  "firecrawl-agent": {
-    "type": "agents",
-    "name": "firecrawl-agent",
-    "files": [
-      "app/src/mastra/registry/agents/firecrawl-agent/index.ts",
-      "app/src/mastra/registry/agents/firecrawl-agent/web-agent.ts"
     ],
-    "dependencies": [
-      "@mastra/core",
-      "@ai-sdk/openai",
-      "@mastra/memory",
-      "@mastra/libsql",
-      "@mastra/mcp"
-    ],
-    "envs": [
-      "FIRECRAWL_API_KEY"
-    ]
-  },
-  "exa-agent": {
-    "type": "agents",
-    "name": "exa-agent",
-    "files": [
-      "app/src/mastra/registry/agents/exa-agent/index.ts",
-      "app/src/mastra/registry/agents/exa-agent/web-agent.ts"
-    ],
-    "dependencies": [
-      "@mastra/core",
-      "@ai-sdk/openai",
-      "@mastra/memory",
-      "@mastra/libsql",
-      "@mastra/mcp"
-    ],
-    "envs": [
-      "EXA_API_KEY"
+    "aiprovider": [
+      "google"
     ]
   },
   "translate-agent": {
@@ -87,6 +99,9 @@
       "@mastra/libsql",
       "@ai-sdk/google"
     ],
-    "envs": []
+    "envs": [],
+    "aiprovider": [
+      "google"
+    ]
   }
 }

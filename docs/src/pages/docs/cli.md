@@ -58,7 +58,7 @@ Generate a `registry.json` file from a local folder containing your agents. The 
 npx tsai-registry build ./my-agents
 ```
 
-The command iterates through the `agents`, `workflows` and `tools` subfolders and gathers the files needed for each entry. It ignores extensions listed in `build.ignoreExtensions` from `settings.json`.
+The command iterates through the `agents`, `workflows` and `tools` subfolders and gathers the files needed for each entry. It detects the AI providers used in the source files and stores them in the `aiprovider` array. It also ignores extensions listed in `build.ignoreExtensions` from `settings.json`.
 
 ## `settings.json`
 
