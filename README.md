@@ -68,6 +68,7 @@ This script will:
 - Scan all agent, workflow, tool, etc. folders in the given path
 - List files (excluding ignored extensions, see `settings.json`)
 - Extract external dependencies and used environment variables
+- Detect the AI providers used and add an `aiprovider` array
 - Generate a `registry.json` file at the project root
 
 ## ⚙️ Configuration
@@ -151,6 +152,7 @@ Ce script va :
 - Parcourir tous les dossiers d’agents, workflows, tools, etc. dans le chemin indiqué
 - Lister les fichiers (hors extensions ignorées, voir `settings.json`)
 - Extraire les dépendances externes et variables d’environnement utilisées
+- Détecter les providers IA et ajouter le champ `aiprovider` (tableau)
 - Générer un fichier `registry.json` à la racine du projet
 
 ## ⚙️ Configuration
