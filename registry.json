@@ -14,7 +14,10 @@
       "@mastra/libsql",
       "zod"
     ],
-    "envs": []
+    "envs": [],
+    "aiprovider": [
+      "openai"
+    ]
   },
   "google-search-agent": {
     "type": "agents",
@@ -35,6 +38,9 @@
     "envs": [
       "GOOGLE_API_KEY",
       "GOOGLE_CX"
+    ],
+    "aiprovider": [
+      "google"
     ]
   },
   "firecrawl-agent": {
@@ -53,6 +59,9 @@
     ],
     "envs": [
       "FIRECRAWL_API_KEY"
+    ],
+    "aiprovider": [
+      "openai"
     ]
   },
   "exa-agent": {
@@ -71,6 +80,9 @@
     ],
     "envs": [
       "EXA_API_KEY"
+    ],
+    "aiprovider": [
+      "openai"
     ]
   },
   "translate-agent": {
@@ -87,6 +99,9 @@
       "@mastra/libsql",
       "@ai-sdk/google"
     ],
-    "envs": []
+    "envs": [],
+    "aiprovider": [
+      "google"
+    ]
   }
 }
