@@ -1,10 +1,48 @@
 {
+  "weather-agent": {
+    "type": "agents",
+    "name": "weather-agent",
+    "files": [
+      "app/src/mastra/registry/agents/weather-agent/weather-agent.ts",
+      "app/src/mastra/registry/agents/weather-agent/weather-tool.ts",
+      "app/src/mastra/registry/agents/weather-agent/index.ts"
+    ],
+    "dependencies": [
+      "@ai-sdk/openai",
+      "@mastra/core",
+      "@mastra/memory",
+      "@mastra/libsql",
+      "zod"
+    ],
+    "envs": []
+  },
+  "google-search-agent": {
+    "type": "agents",
+    "name": "google-search-agent",
+    "files": [
+      "app/src/mastra/registry/agents/google-search-agent/index.ts",
+      "app/src/mastra/registry/agents/google-search-agent/google-search-agent.ts"
+    ],
+    "dependencies": [
+      "dotenv",
+      "@mastra/core",
+      "@mastra/memory",
+      "@ai-sdk/google",
+      "zod",
+      "axios",
+      "@mastra/libsql"
+    ],
+    "envs": [
+      "GOOGLE_API_KEY",
+      "GOOGLE_CX"
+    ]
+  },
   "firecrawl-agent": {
     "type": "agents",
     "name": "firecrawl-agent",
     "files": [
-      "app/src/mastra/registry/agents/firecrawl-agent/web-agent.ts",
-      "app/src/mastra/registry/agents/firecrawl-agent/index.ts"
+      "app/src/mastra/registry/agents/firecrawl-agent/index.ts",
+      "app/src/mastra/registry/agents/firecrawl-agent/web-agent.ts"
     ],
     "dependencies": [
       "@mastra/core",
@@ -21,9 +59,8 @@
     "type": "agents",
     "name": "exa-agent",
     "files": [
-      "app/src/mastra/registry/agents/exa-agent/web-agent.ts",
-      "app/src/mastra/registry/agents/exa-agent/exa.yaml",
-      "app/src/mastra/registry/agents/exa-agent/index.ts"
+      "app/src/mastra/registry/agents/exa-agent/index.ts",
+      "app/src/mastra/registry/agents/exa-agent/web-agent.ts"
     ],
     "dependencies": [
       "@mastra/core",
@@ -36,41 +73,19 @@
       "EXA_API_KEY"
     ]
   },
-  "google-search-agent": {
+  "translate-agent": {
     "type": "agents",
-    "name": "google-search-agent",
+    "name": "translate-agent",
     "files": [
-      "app/src/mastra/registry/agents/google-search-agent/google-search-agent.ts",
-      "app/src/mastra/registry/agents/google-search-agent/index.ts"
+      "app/src/mastra/registry/agents/translate-agent/index.ts",
+      "app/src/mastra/registry/agents/translate-agent/translate-agent.ts"
     ],
     "dependencies": [
       "dotenv",
       "@mastra/core",
       "@mastra/memory",
-      "@ai-sdk/google",
-      "zod",
-      "axios",
-      "@mastra/libsql"
-    ],
-    "envs": [
-      "GOOGLE_API_KEY",
-      "GOOGLE_CX"
-    ]
-  },
-  "weather-agent": {
-    "type": "agents",
-    "name": "weather-agent",
-    "files": [
-      "app/src/mastra/registry/agents/weather-agent/weather-agent.ts",
-      "app/src/mastra/registry/agents/weather-agent/weather-tool.ts",
-      "app/src/mastra/registry/agents/weather-agent/index.ts"
-    ],
-    "dependencies": [
-      "@ai-sdk/openai",
-      "@mastra/core",
-      "@mastra/memory",
       "@mastra/libsql",
-      "zod"
+      "@ai-sdk/google"
     ],
     "envs": []
   }

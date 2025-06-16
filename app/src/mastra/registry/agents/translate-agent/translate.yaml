@@ -5,6 +5,7 @@ tags:
   - agent
   - translation
   - mastra
+  - google
 exports:
   - translationAgent
-author: mastra-ai
+author: aidalinfo
