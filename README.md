@@ -35,6 +35,11 @@ The AI ecosystem is moving fast, and many Python frameworks (LangChain, CrewAI, 
   ```sh
   npx tsai-registry add <agent-name>
   ```
+- **Initialise local configuration:**
+  ```sh
+  npx tsai-registry init
+  ```
+  Creates a `settings-registry.json` file asking for the local registry path (default `src/mastra/registry`). The command also confirms if the file already exists.
 - **Show the current configuration:**
   ```sh
   npx tsai-registry settings
@@ -119,6 +124,11 @@ L'écosystème de l'IA évolue rapidement, et de nombreux frameworks Python (Lan
   ```sh
   npx tsai-registry add <nom-agent>
   ```
+- **Initialiser la configuration locale :**
+  ```sh
+  npx tsai-registry init
+  ```
+  Génère un fichier `settings-registry.json` en demandant le chemin du dossier local (par défaut `src/mastra/registry`) et confirme l'écrasement s'il existe déjà.
 - **Afficher la configuration utilisée :**
   ```sh
   npx tsai-registry settings
