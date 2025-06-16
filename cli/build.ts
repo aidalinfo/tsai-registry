@@ -69,6 +69,30 @@ import { write } from 'bun';
     return Array.from(envs);
   }
 
+  const PROVIDER_MODULES: Record<string, string> = {
+    '@ai-sdk/xai': 'xai',
+    '@ai-sdk/openai': 'openai',
+    '@ai-sdk/anthropic': 'anthropic',
+    '@ai-sdk/google': 'google',
+    '@ai-sdk/azure': 'azure',
+    '@ai-sdk/amazon-bedrock': 'bedrock',
+    '@ai-sdk/groq': 'groq',
+    '@ai-sdk/mistral': 'mistral',
+    '@ai-sdk/deepseek': 'deepseek',
+  };
+
+  function extractAIProviders(fileContent: string): string[] {
+    const fromRegex = /from\s+['"]([^'"]+)['"]/g;
+    const providers = new Set<string>();
+    let match: RegExpExecArray | null;
+    while ((match = fromRegex.exec(fileContent))) {
+      const mod = match[1];
+      const provider = PROVIDER_MODULES[mod];
+      if (provider) providers.add(provider);
+    }
+    return Array.from(providers);
+  }
+
   // Construction du registry
   const registry: Record<string, any> = {};
 
@@ -83,19 +107,23 @@ import { write } from 'bun';
       const relFiles = files.map(f => path.relative(process.cwd(), f));
       let allDeps: string[] = [];
       let allEnvs: string[] = [];
+      let providers: string[] = [];
       for (const filePath of files) {
         const content = fs.readFileSync(filePath, 'utf-8');
         allDeps = allDeps.concat(extractDependencies(content));
         allEnvs = allEnvs.concat(extractEnvs(content));
+        providers = providers.concat(extractAIProviders(content));
       }
       allDeps = Array.from(new Set(allDeps));
       allEnvs = Array.from(new Set(allEnvs));
+      providers = Array.from(new Set(providers));
       registry[name] = {
         type,
         name,
         files: relFiles,
         dependencies: allDeps,
-        envs: allEnvs
+        envs: allEnvs,
+        aiprovider: providers
       };
     }
   }
