@@ -55,6 +55,16 @@ At this stage, we have 3 working agents available, but this is just the beginnin
 
 ## 🔧 How it works
 
+### Initialize the CLI
+Run `npx tsai-registry init` once in your project. The command creates a
+`settings-registry.json` file storing the local folder where components will be
+copied. It asks for this path (default `src/mastra/registry`) and confirms if an
+existing file should be overwritten.
+
+```bash
+npx tsai-registry init
+```
+
 ### 1. Browse & Discover
 Explore the registry to find components that match your needs:
 
